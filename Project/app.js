@@ -3,17 +3,20 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-// Database 
-const db = require('./config/database');
+// models 
+const models = require('./config/database');
 
-// Test DB
-db.authenticate()
-  .then(() => console.log('Database connected...'))
-  .catch(err => console.log('Error: ' + err));
+models.sequelize.sync();
 
 const app =  express();
 
-app.get('/',(req,res) => res.send('INDEX'));
+const sequelize = models.sequelize;
+
+const User = sequelize.import('./models/user');
+
+
+
+
 
 const PORT = process.env.PORT || 5000;
 

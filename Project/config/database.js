@@ -1,14 +1,18 @@
 const Sequelize = require('sequelize');
 
-module.exports = new Sequelize('FindYourPlace', 'postgres', 'postgres', {
-  host: 'localhost',
-  dialect: 'postgres',
+const sequelize = new Sequelize('FindYourPlace','postgres','postgres',{dialect:'postgres'});
 
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  },
-  operatorsAliases: false
+const models = {
+  user:sequelize.import('../models/user')
+};
+
+Object.keys(models).forEach(modelName => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models);
+  }
 });
+
+models.sequelize = sequelize;
+models.Sequelize = Sequelize;
+
+module.exports = models;
