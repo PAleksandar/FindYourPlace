@@ -9,17 +9,18 @@ const Place = sequelize.import('../models/place');
 router.get('/', (req,res)=>{ 
     const event = Event.findAll().then((p)=>{res.status(200).send(p).json});
 });
-////////////argument id je mesto
+////////////id-za place, id2 za Usera
 router.post('/:id', (req,res) => {
-    const place = Place.findById(req.params.id).then((p)=>{
+    const place = Place.findById(req.params.id).then((pl)=>{
         const event = Event.create({
             'name': req.body.name,
             'tag':req.body.tag,
             'image':req.body.image,
             'description':req.body.description,
             'like':req.body.like,
-            'date':req.body.date
-        }).then((e)=>{e.setPlace(p).then((p)=>{res.status(200).send(p).json;})});
+            'date':req.body.date,
+            'ownerUserId':req.body.ownerUserId
+        }).then((e)=>{e.setPlace(pl).then((p)=>{res.status(200).send(p).json;})});
 
     });
     
@@ -46,5 +47,11 @@ router.put('/:id', (req,res)=>{
 
 });
 
+////////svi korisnici jednog eventa
+router.get('/:id/user', (req,res)=>{
+    const event= Event.findById(req.params.id).then((event)=>{
+        event.getUsers().then((users)=>{res.status(200).send(users).json});
 
+    });
+});
 module.exports=router;
