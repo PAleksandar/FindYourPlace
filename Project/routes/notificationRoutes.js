@@ -15,7 +15,8 @@ router.get('/:id', ( req, res) => {
 router.put('/:id', ( req, res) => {
   notification.update({
     'text': req.body.text,
-    'date': new Date(req.body.date)
+    'date': new Date(req.body.date),
+    'userId': req.body.userId
   }, { where: { id: req.params.id } })
   .then((n) => { res.send(n).json; });
 });
@@ -23,7 +24,8 @@ router.put('/:id', ( req, res) => {
 router.post('/', ( req, res) => {
   const notif = notification.create({
     'text': req.body.text, 
-    'date': new Date(req.body.date)
+    'date': new Date(req.body.date),
+    'userId': req.body.userId
   }).then((n) => { res.send(n).json; });
 });
 

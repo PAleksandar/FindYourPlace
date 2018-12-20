@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     place.associate = function(models) {
       // associations can be defined here
-      place.belongsToMany(models.comment, {
+     /* place.belongsToMany(models.comment, {
         through: 'Place-Comment',
         foreignKey: 'placeId'
-      });
+      }); */
 
     };
     return place;
