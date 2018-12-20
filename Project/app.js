@@ -9,6 +9,7 @@ const eventRouter = require('./routes/eventRoute');
 // models 
 //const models = require('./config/database'); 
 var messageRouter = require('./routes/messageRoutes');
+var conversationRouter = require('./routes/conversationRoutes');
 
 //models.sequelize.sync({force: true});
 models.sequelize.sync();
@@ -28,6 +29,7 @@ const PORT = process.env.PORT || 5000;
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use("/message",messageRouter);
+app.use("/conversation",conversationRouter);
 app.use("/place", placeRouter);
 app.use("/event",eventRouter);
 
