@@ -26,6 +26,6 @@ const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-app.use("/",messageRouter);
+app.use("/message",messageRouter);
 
 app.listen(PORT,console.log(`Server started on port izmena ${PORT}.`));

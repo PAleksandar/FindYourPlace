@@ -5,15 +5,15 @@ models.sequelize.sync();
 const sequelize = models.sequelize;
 const Message = sequelize.import('../models/message');
 
-router.get('/messages', function (req, res) {
+router.get('/', function (req, res) {
     const message = Message.findAll().then((m)=>{res.send(m).json;});
 });
 
-router.get('/message/:id', function (req, res) {
+router.get('/:id', function (req, res) {
      const message = Message.findById(req.params.id).then((m)=>{res.send(m).json;});
  });
 
-router.post('/message',(req,res)=>{
+router.post('/',(req,res)=>{
     var time=Date.now();
     const message = Message.create({'text':req.body.text,'time':time})
     .then((m)=>{res.send(m).json});
