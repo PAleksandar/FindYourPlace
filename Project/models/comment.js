@@ -9,10 +9,13 @@ module.exports = (sequelize, DataTypes) => {
   });
   comment.associate = function(models) {
     // associations can be defined here
-    comment.belongsTo(models.user);
+    comment.belongsTo(models.user, {
+      foreignKey:'userId'
+    });
     comment.belongsToMany(models.place, {
       through: 'Place-Comment',
-      foreignKey: 'commentId'
+      foreignKey: 'commentId',
+      timestamps: false
     });
   };
   return comment;
