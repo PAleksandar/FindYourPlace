@@ -2,32 +2,35 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
-const models = require('./config/database.js');
+const models = require('./config/database');
 const placeRouter = require('./routes/placeRoute');
 const eventRouter = require('./routes/eventRoute');
 
 // models 
-//const models = require('./config/database'); 
 var messageRouter = require('./routes/messageRoutes');
+
 var conversationRouter = require('./routes/conversationRoutes');
 
+var userRouter = require('./routes/userRoutes');
+var notificationRouter = require('./routes/notificationRoutes');
+var commentRouter = require('./routes/commentRoutes');
+
+
+const sequelize = models.sequelize;
 //models.sequelize.sync({force: true});
-models.sequelize.sync();
+sequelize.sync();
 
 const app =  express();
 
-//const sequelize = models.sequelize;
-
-//const Notification = sequelize.import('./models/notification');
-
-//const Comment = sequelize.import('./models/comment');
-
-//console.log(Notification.get('text'));
+const Notification = sequelize.import('./models/notification');
 
 const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
+app.use("/user",userRouter);
+app.use("/notification",notificationRouter);
+app.use("/comment",commentRouter);
 app.use("/message",messageRouter);
 app.use("/conversation",conversationRouter);
 app.use("/place", placeRouter);

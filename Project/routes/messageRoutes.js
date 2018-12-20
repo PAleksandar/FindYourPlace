@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../config/database');
+
 //models.sequelize.sync();
+
 const sequelize = models.sequelize;
 const Message = sequelize.import('../models/message');
 
