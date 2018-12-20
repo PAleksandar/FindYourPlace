@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 // models 
-const models = require('./config/database');
+const models = require('./config/database'); 
 
 models.sequelize.sync();
 
@@ -13,7 +13,8 @@ const app =  express();
 const sequelize = models.sequelize;
 
 const User = sequelize.import('./models/user');
-
+const Message = sequelize.import('./models/message');
+const Conversation = sequelize.import('./models/conversation');
 
 
 

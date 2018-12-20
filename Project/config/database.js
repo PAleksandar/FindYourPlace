@@ -3,7 +3,9 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize('FindYourPlace','postgres','postgres',{dialect:'postgres'});
 
 const models = {
-  user:sequelize.import('../models/user')
+  user:sequelize.import('../models/user'),
+  message:sequelize.import('../models/message'),
+  conversation:sequelize.import('../models/conversation')
 };
 
 Object.keys(models).forEach(modelName => {
