@@ -7,7 +7,10 @@ const models = {
   message:sequelize.import('../models/message'),
   conversation:sequelize.import('../models/conversation'),
   comment:sequelize.import('../models/comment'),
-  notification:sequelize.import('../models/notification')
+  notification:sequelize.import('../models/notification'),
+  place:sequelize.import('../models/place'),
+  event:sequelize.import('../models/event')
+  
 };
 
 Object.keys(models).forEach(modelName => {

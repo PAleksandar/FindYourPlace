@@ -4,15 +4,15 @@ const models = require('../config/database');
 const sequelize = models.sequelize;
 const User = sequelize.import('../models/user');
 
-router.get('/user', ( req, res) => {
+router.get('/', ( req, res) => {
   const users = User.findAll().then((u) => {res.send(u).json;});
 });
 
-router.get('/user/:id', ( req, res) => {
+router.get('/:id', ( req, res) => {
   const user = User.findById(req.params.id).then((u)=>{res.send(u).json});
 });
 
-router.put('/user/:id', ( req, res) => {
+router.put('/:id', ( req, res) => {
   User.update({
     'email': req.body.email, 
     'password': req.body.password,
@@ -25,7 +25,7 @@ router.put('/user/:id', ( req, res) => {
   .then((u) => { res.send(u).json; });
 });
 
-router.post('/user', ( req, res) => {
+router.post('/', ( req, res) => {
   const user = User.create({
     'email': req.body.email, 
     'password': req.body.password,
@@ -37,7 +37,7 @@ router.post('/user', ( req, res) => {
   }).then((u) => { res.send(u).json; });
 });
 
-router.delete('/user/:id', ( req, res) => {
+router.delete('/:id', ( req, res) => {
   const user = User.findById(req.params.id).then((u)=>{res.send(u).json});
   User.destroy({ where: {id: req.params.id} });
 });
