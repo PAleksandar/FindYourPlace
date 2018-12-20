@@ -10,12 +10,17 @@ module.exports = (sequelize, DataTypes) => {
   comment.associate = function(models) {
     // associations can be defined here
     comment.belongsTo(models.user, {
-      foreignKey:'userId'
+      foreignKey:'userId',
+        onDelete: 'CASCADE' , 
+        allowNull: false
+  
+  
+
     });
-    comment.belongsToMany(models.place, {
-      through: 'Place-Comment',
-      foreignKey: 'commentId',
-      timestamps: false
+    comment.belongsTo(models.place, {
+      foreignKey:'placeId',
+        onDelete: 'CASCADE' , 
+        allowNull: false
     });
   };
   return comment;

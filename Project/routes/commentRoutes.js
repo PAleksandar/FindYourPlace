@@ -16,7 +16,9 @@ router.put('/:id', ( req, res) => {
   Comment.update({
     'text': req.body.text, 
     'date': new Date(req.body.date),
-    'like': parseInt(req.body.like)
+    'like': parseInt(req.body.like),
+    'userId' : req.body.userId,
+    'placeId' : req.body.placeId
   }, { where: { id: req.params.id } })
   .then((c) => { res.send(c).json; });
 });
@@ -25,7 +27,9 @@ router.post('/', ( req, res) => {
   const comment = Comment.create({
     'text': req.body.text, 
     'date': new Date(req.body.date),
-    'like': parseInt(req.body.like)
+    'like': parseInt(req.body.like),
+    'userId' : req.body.userId,
+    'placeId' : req.body.placeId
   }).then((c) => { res.send(c).json; });
 });
 
