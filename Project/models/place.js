@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
       //attributes
       name: DataTypes.STRING,
       tag:DataTypes.STRING,
-      time:DataTypes.DATE,
+      latitude:DataTypes.FLOAT,
+      longitude:DataTypes.FLOAT,
       image:DataTypes.BLOB,
       description:DataTypes.STRING,
       like:DataTypes.INTEGER

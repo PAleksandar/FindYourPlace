@@ -2,11 +2,11 @@ module.exports = (sequelize, DataTypes) => {
     const event = sequelize.define('event', {
       //attributes
       name: DataTypes.STRING,
-      longitude:DataTypes.FLOAT,
-      latitude:DataTypes.FLOAT,
+      tag:DataTypes.STRING,
       image:DataTypes.BLOB,
       description:DataTypes.STRING,
-      like:DataTypes.INTEGER
+      like:DataTypes.INTEGER,
+      date:DataTypes.DATE
 
     }, {
       timestamps: false
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     event.belongsToMany(models.user, {
         through: 'User-Event',
         foreignKey: 'eventId'
-    })
+    });
 
     };
     return event;
