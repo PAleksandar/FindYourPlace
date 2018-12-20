@@ -8,9 +8,13 @@ const eventRouter = require('./routes/eventRoute');
 
 // models 
 var messageRouter = require('./routes/messageRoutes');
+
+var conversationRouter = require('./routes/conversationRoutes');
+
 var userRouter = require('./routes/userRoutes');
 var notificationRouter = require('./routes/notificationRoutes');
 var commentRouter = require('./routes/commentRoutes');
+
 
 const sequelize = models.sequelize;
 //models.sequelize.sync({force: true});
@@ -28,6 +32,7 @@ app.use("/user",userRouter);
 app.use("/notification",notificationRouter);
 app.use("/comment",commentRouter);
 app.use("/message",messageRouter);
+app.use("/conversation",conversationRouter);
 app.use("/place", placeRouter);
 app.use("/event",eventRouter);
 
