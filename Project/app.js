@@ -9,18 +9,18 @@ const path = require('path');
 //const models = require('./config/database'); 
 var messageRouter = require('./routes/messageRoutes');
 
-//models.sequelize.sync();
+//models.sequelize.sync({force: true});
+models.sequelize.sync();
 
 const app =  express();
 
 //const sequelize = models.sequelize;
 
-//const User = sequelize.import('./models/user');
-//const Message = sequelize.import('./models/message');
-//const Conversation = sequelize.import('./models/conversation');
+const Notification = sequelize.import('./models/notification');
 
+const Comment = sequelize.import('./models/comment');
 
-
+//console.log(Notification.get('text'));
 
 const PORT = process.env.PORT || 5000;
 
