@@ -11,10 +11,9 @@ module.exports = (sequelize, DataTypes) => {
     notification.belongsTo(models.user, {
       foreignKey: 'userId'
     });
-    notification.belongsToMany(models.event, {
-      through: 'Event-Notification',
-      foreignKey: 'notificationId',
-      timestamps: false
+    notification.belongsTo(models.event, {
+      foreignKey: 'eventId',
+     
     });
   };
   return notification;
