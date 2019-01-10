@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        new GetDataTask().execute("http://192.168.1.113:5000/user/1");
+
         setupConnectionFactory();
         publishToAMQP();
         setupPubButton();
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         subscribe(incomingMessageHandler);
+
+
     }
 
     void setupPubButton() {
