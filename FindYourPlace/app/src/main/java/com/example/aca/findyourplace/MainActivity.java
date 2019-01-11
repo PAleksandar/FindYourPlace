@@ -10,10 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        subscribe(incomingMessageHandler);
+       // subscribe(incomingMessageHandler);
 
         String us=null;
         GetDataTask gdt;
@@ -70,7 +74,27 @@ public class MainActivity extends AppCompatActivity {
         else
             Log.d("test User get", us);
 
+
+
+        try {
+            JSONObject jsonObject = new JSONObject(us);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        User data = new User();
+        Gson gson = new Gson();
+        data= gson.fromJson(us,User.class);
+
+
+
+        if(data.email!=null)
+            Log.d("test User Json", data.email);
+
+
+
         RabbitCon.subscribe(incomingMessageHandler,subscribeThread);
+
 
     }
 
