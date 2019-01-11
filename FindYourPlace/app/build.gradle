@@ -40,5 +40,5 @@ dependencies {
     implementation files('libs/commons-cli-1.4.jar')
     implementation files('libs/commons-io-1.4.jar')
     implementation 'org.slf4j:slf4j-api:1.7.25'
-
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
