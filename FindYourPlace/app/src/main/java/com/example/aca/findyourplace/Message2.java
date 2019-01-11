@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 public class Message2 {
@@ -14,13 +15,15 @@ public class Message2 {
     private int sender;
     private int receiver;
     private int convers;
+    private Date date;
 
     public Message2(){}
-    public Message2(String tekst, int sender, int receiver, int convers) {
+    public Message2(String tekst, int sender, int receiver, int convers, Date datum) {
         this.text=tekst;
         this.sender = sender;
         this.receiver = receiver;
         this.convers = convers;
+        this.date=datum;
     }
 
     public Message2 LoadMessage(){
@@ -46,7 +49,7 @@ public class Message2 {
         GetDataTask gdt;
         gdt=new GetDataTask();
         try {
-            text=gdt.execute("http://192.168.1.108:5000/message/conversation/" + convId).get();
+            text=gdt.execute(RabbitMQ.mreza+ "message/conversation/" + convId).get();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -71,6 +74,14 @@ public class Message2 {
 
     public void setTekst(String tekst) {
         this.text = tekst;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 //    public static String executePost(String targetURL, String urlParameters) {

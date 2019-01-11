@@ -63,6 +63,17 @@ class PostDataTask extends AsyncTask<String, Void, String> {
         }
     }
 
+    public JSONObject dataToSend = new JSONObject();
+
+    public void SetJSONMessage(String text,int senderId,int receiverId,int conversId) {
+        try {
+            dataToSend.put("text", text);
+            dataToSend.put("sender",senderId);
+            dataToSend.put("receiver",receiverId);
+            dataToSend.put("convers",conversId);
+        } catch (Exception e){ }
+    }
+
     private String postData(String urlPath) throws IOException, JSONException
     {
         StringBuilder result=new StringBuilder();
@@ -71,8 +82,8 @@ class PostDataTask extends AsyncTask<String, Void, String> {
         try {
             //create data to send
 
-            JSONObject dataToSend = new JSONObject();
-            dataToSend.put("email", "Think twice code once");
+            //JSONObject dataToSend = new JSONObject();
+            //dataToSend.put("email", "Think twice code once");
 
 
             //initialize and config request, then connect to server
