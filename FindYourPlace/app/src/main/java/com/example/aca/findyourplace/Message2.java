@@ -2,6 +2,8 @@ package com.example.aca.findyourplace;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -18,7 +20,7 @@ public class Message2 {
     private int senderId;
     private int receiverId;
 
-    public void LoadMessage(){
+    public Message2 LoadMessage(){
 
         GetDataTask gdt;
         gdt=new GetDataTask();
@@ -30,6 +32,11 @@ public class Message2 {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        Message2 data = new Message2();
+        Gson gson = new Gson();
+        data= gson.fromJson(tekst,Message2.class);
+
+        return data;
     }
 
     public String getTekst() {
