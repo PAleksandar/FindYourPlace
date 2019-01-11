@@ -5,31 +5,30 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class Message2 {
+    private String text;
+    private int sender;
+    private int receiver;
+    private int convers;
 
-    private String tekst;
-    private String Data;
-    private int senderId;
-    private int receiverId;
+    public Message2(){}
+    public Message2(String tekst, int sender, int receiver, int convers) {
+        this.text=tekst;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.convers = convers;
+    }
 
     public Message2 LoadMessage(){
 
         GetDataTask gdt;
         gdt=new GetDataTask();
         try {
-            tekst=gdt.execute("http://192.168.1.108:5000/user/1").get();
+            text=gdt.execute("http://192.168.1.108:5000/user/1").get();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -38,7 +37,7 @@ public class Message2 {
         }
         Message2 data = new Message2();
         Gson gson = new Gson();
-        data= gson.fromJson(tekst,Message2.class);
+        data= gson.fromJson(text,Message2.class);
 
         return data;
     }
@@ -47,28 +46,31 @@ public class Message2 {
         GetDataTask gdt;
         gdt=new GetDataTask();
         try {
-            tekst=gdt.execute("http://192.168.1.108:5000/conversation/" + convId).get();
+            text=gdt.execute("http://192.168.1.108:5000/message/conversation/" + convId).get();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        Log.d("cccc", text);
         Type listType = new TypeToken<ArrayList<Message2>>(){}.getType();
         ArrayList<Message2> data = new ArrayList<Message2>();
         Gson gson = new Gson();
-        data= gson.fromJson(tekst,listType);
+        data= gson.fromJson(text,listType);
+        Integer size = data.size();
+        Log.d("list",size.toString());
 
         return data;
 
     }
 
     public String getTekst() {
-        return tekst;
+        return text;
     }
 
     public void setTekst(String tekst) {
-        this.tekst = tekst;
+        this.text = tekst;
     }
 
 //    public static String executePost(String targetURL, String urlParameters) {

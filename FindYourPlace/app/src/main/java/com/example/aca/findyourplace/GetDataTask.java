@@ -28,7 +28,7 @@ class GetDataTask extends AsyncTask<String, Void, String> {
         }
         catch (IOException ex)
         {
-            return "Network error";
+            return "Network error" + ex.toString();
         }
 
     }

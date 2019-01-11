@@ -10,23 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.URISyntaxException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-        user=user.loadUser(1);
+       // user=user.loadUser(1);
 
         if(user.email!=null)
             Log.d("test User Json 000000000000000000000000000000000000000", user.email);
 
 
-
+        new Message2().loadMessages(1);
         RabbitCon.subscribe(incomingMessageHandler,subscribeThread,String.valueOf(user.id));
 
 
