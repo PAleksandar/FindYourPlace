@@ -30,7 +30,9 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ConnectionFactory factory= new ConnectionFactory();
+    RabbitMQ RabbitCon = new RabbitMQ();
+    Thread subscribeThread;
+    Thread publishThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-        setupConnectionFactory();
-        publishToAMQP();
+        RabbitCon.setupConnectionFactory();
+        RabbitCon.publishToAMQP(publishThread);
         setupPubButton();
 
         final Handler incomingMessageHandler = new Handler() {
@@ -55,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 tv.append(ft.format(now) + ' ' + message + '\n');
             }
         };
-        subscribe(incomingMessageHandler);
+
+       // subscribe(incomingMessageHandler);
 
         String us=null;
         GetDataTask gdt;
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("test User get", "test uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
         else
             Log.d("test User get", us);
+
 
 
         try {
@@ -90,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        RabbitCon.subscribe(incomingMessageHandler,subscribeThread);
+
+
     }
 
     void setupPubButton() {
@@ -98,14 +104,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 EditText et = (EditText) findViewById(R.id.text);
-                publishMessage(et.getText().toString());
+                RabbitCon.publishMessage(et.getText().toString());
                 et.setText("");
             }
         });
     }
-
-    Thread subscribeThread;
-    Thread publishThread;
 
     @Override
     protected void onDestroy() {
@@ -113,121 +116,4 @@ public class MainActivity extends AppCompatActivity {
         publishThread.interrupt();
         subscribeThread.interrupt();
     }
-
-    ///////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    private BlockingDeque<String> queue = new LinkedBlockingDeque<String>();
-
-    void publishMessage(String message) {
-        //Adds a message to internal blocking queue
-        try {
-            Log.d("","[q] " + message);
-            queue.putLast(message);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void setupConnectionFactory() {
-        String uri = "amqp://adenbmke:hxpYGKr-zPYi4bmzhqsTdh5rtaZJlw53@bee.rmq.cloudamqp.com/adenbmke";
-        factory = new ConnectionFactory();
-      try {
-          factory.setAutomaticRecoveryEnabled(false);
-//          factory.setHost("192.168.0.18");
-//       factory.setVirtualHost("/");
-//       factory.setPort(5672);
-//        factory.setUsername("guest");
-//         factory.setPassword("guest");
-         factory.setUri(uri);
-     } catch (KeyManagementException | NoSuchAlgorithmException | URISyntaxException e1) {
-        e1.printStackTrace();
-     }
-    }
-
-    public void publishToAMQP()
-    {
-        publishThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(true) {
-                    try {
-                        Connection connection = factory.newConnection();
-                        Channel ch = connection.createChannel();
-                        ch.confirmSelect();
-
-                        while (true) {
-                            String message = queue.takeFirst();
-                            try{
-                                ch.basicPublish("amq.fanout", "chat", null, message.getBytes());
-                                Log.d("", "[s] " + message);
-                                ch.waitForConfirmsOrDie();
-                            } catch (Exception e){
-                                Log.d("","[f] " + message);
-                                queue.putFirst(message);
-                                throw e;
-                            }
-                        }
-                    } catch (InterruptedException e) {
-                        break;
-                    } catch (Exception e) {
-                        Log.d("", "Connection broken: " + e.getClass().getName()+ e.getMessage());
-                        try {
-                            Thread.sleep(5000); //sleep and then try again
-                        } catch (InterruptedException e1) {
-                            break;
-                        }
-                    }
-                }
-            }
-        });
-        publishThread.start();
-    }
-
-
-    void subscribe(final Handler handler)
-    {
-        subscribeThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(true) {
-                    try {
-                        Connection connection = factory.newConnection();
-                        Channel channel = connection.createChannel();
-                        channel.basicQos(1);
-                        AMQP.Queue.DeclareOk q = channel.queueDeclare();
-                        channel.queueBind(q.getQueue(), "amq.fanout", "chat");
-                        QueueingConsumer consumer = new QueueingConsumer(channel);
-                        channel.basicConsume(q.getQueue(), true, consumer);
-                        // Process deliveries
-                        while (true) {
-                            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-
-                            String message = new String(delivery.getBody());
-                            Log.d("","[r] " + message);
-
-                            Message msg = handler.obtainMessage();
-                            Bundle bundle = new Bundle();
-
-                            bundle.putString("msg", message);
-                            msg.setData(bundle);
-                            handler.sendMessage(msg);
-                        }
-                    } catch (InterruptedException e) {
-                        break;
-                    } catch (Exception e1) {
-                        Log.d("", "Connection broken: " + e1.getClass().getName());
-                        try {
-                            Thread.sleep(4000); //sleep and then try again
-                        } catch (InterruptedException e) {
-                            break;
-                        }
-                    }
-                }
-            }
-        });
-        subscribeThread.start();
-    }
-
-
 }
