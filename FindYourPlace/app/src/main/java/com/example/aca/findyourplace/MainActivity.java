@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        subscribe(incomingMessageHandler);
+        //subscribe(incomingMessageHandler);
 
         String us=null;
         GetDataTask gdt;
@@ -71,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d("test User get", us);
 
         RabbitCon.subscribe(incomingMessageHandler,subscribeThread);
+
+        Message2 m = new Message2();
+        m.LoadMessage();
+
+        Log.d("eee", m.getTekst());
 
     }
 
