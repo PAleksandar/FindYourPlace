@@ -11,9 +11,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
+
 class GetDataTask extends AsyncTask<String, Void, String> {
 
-    String mResult;
+    static String mResult;
+
+
 
     ProgressDialog progressDialog;
     @Override
@@ -45,7 +49,8 @@ class GetDataTask extends AsyncTask<String, Void, String> {
 
         //set data response to textView
         mResult= result;
-        Log.d("user: ",mResult);
+
+        //Log.d("user: ",mResult);
 
         //cancel progres dialog
         if(progressDialog !=null)

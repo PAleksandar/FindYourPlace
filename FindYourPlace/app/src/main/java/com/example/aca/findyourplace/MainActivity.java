@@ -21,18 +21,21 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class MainActivity extends AppCompatActivity {
+
     RabbitMQ RabbitCon = new RabbitMQ();
     Thread subscribeThread;
     Thread publishThread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //new GetDataTask().execute("http://192.168.1.113:5000/user/1");
+
 
         RabbitCon.setupConnectionFactory();
         RabbitCon.publishToAMQP(publishThread);
@@ -49,7 +52,26 @@ public class MainActivity extends AppCompatActivity {
                 tv.append(ft.format(now) + ' ' + message + '\n');
             }
         };
+
+        subscribe(incomingMessageHandler);
+
+        String us=null;
+        GetDataTask gdt;
+        gdt=new GetDataTask();
+        try {
+            us=gdt.execute("http://192.168.1.113:5000/user/1").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if(us==null)
+        Log.d("test User get", "test uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+        else
+            Log.d("test User get", us);
+
         RabbitCon.subscribe(incomingMessageHandler,subscribeThread);
+
     }
 
     void setupPubButton() {
