@@ -30,6 +30,8 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class MainActivity extends AppCompatActivity {
 
+    User user=new User();
+
     RabbitMQ RabbitCon = new RabbitMQ();
     Thread subscribeThread;
     Thread publishThread;
@@ -40,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
+        new PostDataTask().execute("http://localhost:5000/user/6");
         RabbitCon.setupConnectionFactory();
-        RabbitCon.publishToAMQP(publishThread);
+       // RabbitCon.publishToAMQP(publishThread,"chat");
         setupPubButton();
 
         final Handler incomingMessageHandler = new Handler() {
@@ -57,43 +59,15 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-       // subscribe(incomingMessageHandler);
 
-        String us=null;
-        GetDataTask gdt;
-        gdt=new GetDataTask();
-        try {
-            us=gdt.execute("http://192.168.1.113:5000/user/1").get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        if(us==null)
-        Log.d("test User get", "test uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
-        else
-            Log.d("test User get", us);
+        user=user.loadUser(1);
+
+        if(user.email!=null)
+            Log.d("test User Json 000000000000000000000000000000000000000", user.email);
 
 
 
-        try {
-            JSONObject jsonObject = new JSONObject(us);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        User data = new User();
-        Gson gson = new Gson();
-        data= gson.fromJson(us,User.class);
-
-
-
-        if(data.email!=null)
-            Log.d("test User Json", data.email);
-
-
-
-        RabbitCon.subscribe(incomingMessageHandler,subscribeThread);
+        RabbitCon.subscribe(incomingMessageHandler,subscribeThread,String.valueOf(user.id));
 
 
     }
@@ -104,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 EditText et = (EditText) findViewById(R.id.text);
+                RabbitCon.publishToAMQP(publishThread,String.valueOf(user.id));
                 RabbitCon.publishMessage(et.getText().toString());
                 et.setText("");
             }
