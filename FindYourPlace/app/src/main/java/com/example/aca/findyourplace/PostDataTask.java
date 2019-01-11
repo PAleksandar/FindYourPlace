@@ -72,10 +72,8 @@ class PostDataTask extends AsyncTask<String, Void, String> {
             //create data to send
 
             JSONObject dataToSend = new JSONObject();
-            dataToSend.put("fbname", "Think twice code once");
-            dataToSend.put("content", "feel good");
-            dataToSend.put("likes", 5);
-            dataToSend.put("comments", 5);
+            dataToSend.put("email", "Think twice code once");
+
 
             //initialize and config request, then connect to server
             URL url = new URL(urlPath);

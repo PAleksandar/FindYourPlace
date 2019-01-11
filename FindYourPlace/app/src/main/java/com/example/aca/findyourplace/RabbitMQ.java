@@ -51,7 +51,7 @@ public class RabbitMQ {
     Thread subscribeThread;
     Thread publishThread;
 
-    public void publishToAMQP(Thread publishThread)
+    public void publishToAMQP(Thread publishThread,String chn)
     {
         publishThread = new Thread(new Runnable() {
             @Override
@@ -65,7 +65,7 @@ public class RabbitMQ {
                         while (true) {
                             String message = queue.takeFirst();
                             try{
-                                ch.basicPublish("amq.fanout", "chat", null, message.getBytes());
+                                ch.basicPublish("amq.fanout", chn, null, message.getBytes());
                                 Log.d("", "[s] " + message);
                                 ch.waitForConfirmsOrDie();
                             } catch (Exception e){
@@ -90,7 +90,7 @@ public class RabbitMQ {
         publishThread.start();
     }
 
-    void subscribe(final Handler handler,Thread subscribeThread)
+    void subscribe(final Handler handler,Thread subscribeThread, String chn)
     {
         subscribeThread = new Thread(new Runnable() {
             @Override
@@ -101,7 +101,7 @@ public class RabbitMQ {
                         Channel channel = connection.createChannel();
                         channel.basicQos(1);
                         AMQP.Queue.DeclareOk q = channel.queueDeclare();
-                        channel.queueBind(q.getQueue(), "amq.fanout", "chat");
+                        channel.queueBind(q.getQueue(), "amq.fanout", chn);
                         QueueingConsumer consumer = new QueueingConsumer(channel);
                         channel.basicConsume(q.getQueue(), true, consumer);
                         // Process deliveries
