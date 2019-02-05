@@ -83,8 +83,8 @@ public class ConversationActivity extends AppCompatActivity {
                 Message2 msg=new Message2(et.getText().toString(),1,2,1,new Date(System.currentTimeMillis()));
 
                 PostDataTask pdt = new PostDataTask();
-                pdt.SetJSONMessage(et.getText().toString(),1,2,1);
-               // pdt.SetJsonObject(msg);
+               // pdt.SetJSONMessage(et.getText().toString(),1,2,1);
+                pdt.SetJsonObject(msg);
                 pdt.execute(RabbitMQ.mreza+"message");
                 et.setText("");
             }
