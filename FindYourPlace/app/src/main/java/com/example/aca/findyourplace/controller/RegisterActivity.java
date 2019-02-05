@@ -1,9 +1,10 @@
-package com.example.aca.findyourplace;
+package com.example.aca.findyourplace.controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.aca.findyourplace.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class RegisterActivity extends AppCompatActivity {

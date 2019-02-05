@@ -1,8 +1,9 @@
-package com.example.aca.findyourplace;
-
-import android.util.Log;
+package com.example.aca.findyourplace.model;
 
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -37,8 +38,7 @@ public class User
 
 
 
-    public User loadUser(int userID)
-    {
+    public User loadUser(int userID) throws JSONException {
         String us=null;
         GetDataTask gdt;
         gdt=new GetDataTask();
@@ -59,5 +59,59 @@ public class User
         return user= gson.fromJson(us,User.class);
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 }

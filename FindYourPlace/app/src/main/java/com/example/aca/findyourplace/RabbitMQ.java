@@ -20,7 +20,7 @@ public class RabbitMQ {
 
     private BlockingDeque<String> queue = new LinkedBlockingDeque<String>();
     public static String mreza= "http://10.66.25.39:5000/";
-    void publishMessage(String message) {
+    public void publishMessage(String message) {
         //Adds a message to internal blocking queue
         try {
             Log.d("","[q] " + message);
@@ -90,7 +90,7 @@ public class RabbitMQ {
         publishThread.start();
     }
 
-    void subscribe(final Handler handler,Thread subscribeThread, String chn)
+    public void subscribe(final Handler handler,Thread subscribeThread, String chn)
     {
         subscribeThread = new Thread(new Runnable() {
             @Override

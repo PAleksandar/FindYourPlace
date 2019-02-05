@@ -1,7 +1,9 @@
-package com.example.aca.findyourplace;
+package com.example.aca.findyourplace.model;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class PostDataTask extends AsyncTask<String, Void, String> {
+public class PostDataTask extends AsyncTask<String, Void, String> {
 
     String mResult;
 
@@ -72,6 +74,17 @@ class PostDataTask extends AsyncTask<String, Void, String> {
             dataToSend.put("receiver",receiverId);
             dataToSend.put("convers",conversId);
         } catch (Exception e){ }
+    }
+
+    public void SetJsonObject(Object object)
+    {
+        Gson gson = new Gson();
+        String s=gson.toJson(object);
+        try {
+            dataToSend = new JSONObject(s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private String postData(String urlPath) throws IOException, JSONException
