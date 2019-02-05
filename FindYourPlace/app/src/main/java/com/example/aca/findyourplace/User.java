@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.aca.findyourplace.RabbitMQ.mreza;
+
 public class User
 {
     int id;
@@ -41,7 +43,7 @@ public class User
         GetDataTask gdt;
         gdt=new GetDataTask();
         try {
-            us=gdt.execute("http://192.168.1.113:5000/user/"+userID).get();
+            us=gdt.execute(mreza+"user/"+userID).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

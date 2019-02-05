@@ -19,7 +19,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class RabbitMQ {
 
     private BlockingDeque<String> queue = new LinkedBlockingDeque<String>();
-    public static String mreza= "http://192.168.1.108:5000/";
+    public static String mreza= "http://10.66.25.39:5000/";
     void publishMessage(String message) {
         //Adds a message to internal blocking queue
         try {

@@ -54,7 +54,7 @@ public class ConversationActivity extends AppCompatActivity {
         ArrayList<Message2> listaPoruka = new Message2().loadMessages(1);
         for (int i = 0; i<listaPoruka.size();i++)
         {
-            SimpleDateFormat ft = new SimpleDateFormat ("hh:mm:ss");
+            //SimpleDateFormat ft = new SimpleDateFormat ("hh:mm:ss");
             //tv.append(ft.format(listaPoruka.get(i).getDate()) + " "+ listaPoruka.get(i).getTekst() +"\n");
             tv.append(listaPoruka.get(i).getTekst() +"\n");
         }

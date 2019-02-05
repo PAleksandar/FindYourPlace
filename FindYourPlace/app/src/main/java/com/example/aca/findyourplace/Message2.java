@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.aca.findyourplace.RabbitMQ.mreza;
+
 public class Message2 {
     private String text;
     private int sender;
@@ -31,7 +33,7 @@ public class Message2 {
         GetDataTask gdt;
         gdt=new GetDataTask();
         try {
-            text=gdt.execute("http://192.168.1.108:5000/user/1").get();
+            text=gdt.execute(mreza+"/user/1").get();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -49,7 +51,7 @@ public class Message2 {
         GetDataTask gdt;
         gdt=new GetDataTask();
         try {
-            text=gdt.execute(RabbitMQ.mreza+ "message/conversation/" + convId).get();
+            text=gdt.execute(mreza+ "message/conversation/" + convId).get();
 
         } catch (InterruptedException e) {
             e.printStackTrace();
