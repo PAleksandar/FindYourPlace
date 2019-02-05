@@ -25,11 +25,12 @@
         </activity>
         <activity android:name=".controller.ConversationActivity" />
         <activity android:name=".controller.LoginActivity" />
-        <activity android:name=".controller.RegisterActivity"
+        <activity
+            android:name=".controller.RegisterActivity"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.Design.NoActionBar"
-            ></activity>
+            android:theme="@style/Theme.Design.NoActionBar" />
+        <activity android:name=".controller.SignInActivity" />
+        <activity android:name=".controller.StartPageActivity"></activity>
     </application>
 
 </manifest>
-
