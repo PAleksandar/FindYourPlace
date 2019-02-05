@@ -1,4 +1,4 @@
-package com.example.aca.findyourplace;
+package com.example.aca.findyourplace.controller;
 
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.aca.findyourplace.model.Message2;
+import com.example.aca.findyourplace.model.PostDataTask;
+import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.RabbitMQ;
+import com.example.aca.findyourplace.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,8 +54,8 @@ public class ConversationActivity extends AppCompatActivity {
 
         // user=user.loadUser(1);
 
-        if(user.email!=null)
-            Log.d("test User Json 000000000000000000000000000000000000000", user.email);
+        if(user.getEmail()!=null)
+            Log.d("test User Json 000000000000000000000000000000000000000", user.getEmail());
 
         ArrayList<Message2> listaPoruka = new Message2().loadMessages(1);
         for (int i = 0; i<listaPoruka.size();i++)
@@ -58,7 +64,7 @@ public class ConversationActivity extends AppCompatActivity {
             //tv.append(ft.format(listaPoruka.get(i).getDate()) + " "+ listaPoruka.get(i).getTekst() +"\n");
             tv.append(listaPoruka.get(i).getTekst() +"\n");
         }
-        RabbitCon.subscribe(incomingMessageHandler,subscribeThread,String.valueOf(user.id));
+        RabbitCon.subscribe(incomingMessageHandler,subscribeThread,String.valueOf(user.getId()));
 
 
     }
@@ -72,12 +78,13 @@ public class ConversationActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 EditText et = (EditText) findViewById(R.id.text);
-                RabbitCon.publishToAMQP(publishThread,String.valueOf(user.id));
+                RabbitCon.publishToAMQP(publishThread,String.valueOf(user.getId()));
                 RabbitCon.publishMessage(et.getText().toString());
-
+                Message2 msg=new Message2(et.getText().toString(),1,2,1,new Date(System.currentTimeMillis()));
 
                 PostDataTask pdt = new PostDataTask();
                 pdt.SetJSONMessage(et.getText().toString(),1,2,1);
+               // pdt.SetJsonObject(msg);
                 pdt.execute(RabbitMQ.mreza+"message");
                 et.setText("");
             }

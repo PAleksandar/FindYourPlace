@@ -1,4 +1,4 @@
-package com.example.aca.findyourplace;
+package com.example.aca.findyourplace.model;
 
 import android.util.Log;
 
