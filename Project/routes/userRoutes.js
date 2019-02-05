@@ -11,6 +11,14 @@ router.get('/', ( req, res) => {
 
 router.get('/:id', ( req, res) => {
   const user = User.findById(req.params.id).then((u)=>{res.send(u).json});
+}); 
+
+router.get('/email/:email', ( req,res) => {
+  const user = User.findAll({
+    where: {
+      email: req.params.email
+    }
+  }).then((u) => {res.send(u).json});
 });
 
 router.put('/:id', ( req, res) => {
