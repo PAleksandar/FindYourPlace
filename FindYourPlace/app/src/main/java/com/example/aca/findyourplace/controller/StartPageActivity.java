@@ -16,6 +16,7 @@ public class StartPageActivity extends AppCompatActivity implements NavigationVi
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,9 @@ public class StartPageActivity extends AppCompatActivity implements NavigationVi
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        userId= (int) getIntent().getExtras().get("User");
+        Log.d("Start page", "user id: "+userId);
         /*NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if(navigationView==null)
             Log.i("navigation bar" ," null");
