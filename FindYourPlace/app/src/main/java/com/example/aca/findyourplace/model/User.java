@@ -36,9 +36,23 @@ public class User
         this.birthday=birthday;
     }
 
+    public static User loadUserByEmail(String email) throws JSONException {
+        String us=null;
+        GetDataTask gdt;
+        gdt=new GetDataTask();
+        try {
+            us=gdt.execute(mreza+"user/email/"+email).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        User user=new User();
+        Gson gson = new Gson();
+        return user= gson.fromJson(us,User.class);
+    }
 
-
-    public User loadUser(int userID) throws JSONException {
+    public static User loadUser(int userID) throws JSONException {
         String us=null;
         GetDataTask gdt;
         gdt=new GetDataTask();
@@ -49,11 +63,6 @@ public class User
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-       // if(us==null)
-         //   Log.d("test User get", "test uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
-        //else
-          //  Log.d("test User get", us);
-        ///
         User user=new User();
         Gson gson = new Gson();
         return user= gson.fromJson(us,User.class);
