@@ -1,10 +1,10 @@
 package com.example.aca.findyourplace.model;
 
+import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.aca.findyourplace.RabbitMQ.mreza;
@@ -15,24 +15,25 @@ public class Place {
     String tag;
     double latitude;
     double longitude;
-    ArrayList<Byte> image;
+    //ArrayList<Byte> image;
     String description;
     int like;
 
     public Place()
     {
-        image = new ArrayList<Byte>();
+        //image = new ArrayList<Byte>();
     }
 
     public Place(int id,String name,String tag,
-                 double latitude,double longitude, ArrayList<Byte> image, String description,int like)
+                 double latitude,double longitude/*, ArrayList<Byte> image*/, String description,int like)
     {
-        this.image = new ArrayList<Byte>();
+        //this.image = new ArrayList<Byte>();
         this.id=id;
         this.name=name;
         this.tag=tag;
         this.latitude=latitude;
-        this.image=image;
+        this.longitude = longitude;
+        //this.image=image;
         this.description=description;
         this.like=like;
     }
@@ -40,8 +41,8 @@ public class Place {
     public static Place loadPlace(int placeID) throws JSONException
     {
         String pl=null;
-        GetDataTask gdt;
-        gdt=new GetDataTask();
+        DeleteDataTask gdt;
+        gdt=new DeleteDataTask();
         try {
             pl=gdt.execute(mreza+"place/"+placeID).get();
         } catch (InterruptedException e) {
@@ -52,6 +53,13 @@ public class Place {
         Place place=new Place();
         Gson gson = new Gson();
         return place= gson.fromJson(pl,Place.class);
+    }
+
+    public void savePlace()
+    {
+        PostDataTask pdt = new PostDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"place");
     }
 
     public int getId() {
@@ -94,13 +102,13 @@ public class Place {
         this.longitude = longitude;
     }
 
-    public ArrayList<Byte> getImage() {
-        return image;
-    }
-
-    public void setImage(ArrayList<Byte> image) {
-        this.image = image;
-    }
+//    public ArrayList<Byte> getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(ArrayList<Byte> image) {
+//        this.image = image;
+//    }
 
     public String getDescription() {
         return description;

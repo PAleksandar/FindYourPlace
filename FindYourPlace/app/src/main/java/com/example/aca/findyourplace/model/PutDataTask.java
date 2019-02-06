@@ -18,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class PostDataTask extends AsyncTask<String, Void, String> {
+public class PutDataTask extends AsyncTask<String, Void, String> {
 
     String mResult;
     JSONObject dataToSend = new JSONObject();
@@ -46,7 +46,7 @@ public class PostDataTask extends AsyncTask<String, Void, String> {
     protected void onPreExecute()
     {
         super.onPreExecute();
-       // progressDialog=new ProgressDialog(MainActivity.this);
+        // progressDialog=new ProgressDialog(MainActivity.this);
         //progressDialog.setMessage("Inserting data...");
         //progressDialog.show();
     }
@@ -96,7 +96,7 @@ public class PostDataTask extends AsyncTask<String, Void, String> {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(10000);//milisecond
             urlConnection.setConnectTimeout(10000);
-            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestMethod("PUT");
             urlConnection.setDoOutput(true); //enable output (body data)
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.connect();

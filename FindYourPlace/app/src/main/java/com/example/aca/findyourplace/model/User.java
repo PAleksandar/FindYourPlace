@@ -1,9 +1,10 @@
 package com.example.aca.findyourplace.model;
 
+import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
+import com.rabbitmq.client.AMQP;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -38,8 +39,8 @@ public class User
 
     public static User loadUserByEmail(String email) throws JSONException {
         String us=null;
-        GetDataTask gdt;
-        gdt=new GetDataTask();
+        DeleteDataTask gdt;
+        gdt=new DeleteDataTask();
         try {
             us=gdt.execute(mreza+"user/email/"+email).get();
         } catch (InterruptedException e) {
@@ -54,8 +55,8 @@ public class User
 
     public static User loadUser(int userID) throws JSONException {
         String us=null;
-        GetDataTask gdt;
-        gdt=new GetDataTask();
+        DeleteDataTask gdt;
+        gdt=new DeleteDataTask();
         try {
             us=gdt.execute(mreza+"user/"+userID).get();
         } catch (InterruptedException e) {
@@ -66,6 +67,26 @@ public class User
         User user=new User();
         Gson gson = new Gson();
         return user= gson.fromJson(us,User.class);
+    }
+
+    public void saveUser()
+    {
+        PostDataTask pdt = new PostDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"user");
+    }
+
+    public void putUser()
+    {
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"user/"+this.id);
+    }
+
+    public void deleteUser()
+    {
+        DeleteDataTask ddt = new DeleteDataTask();
+        ddt.execute(RabbitMQ.mreza+"user/"+this.id);
     }
 
     public int getId() {

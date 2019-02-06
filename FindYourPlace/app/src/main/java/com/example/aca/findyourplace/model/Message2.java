@@ -2,6 +2,7 @@ package com.example.aca.findyourplace.model;
 
 import android.util.Log;
 
+import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -14,10 +15,10 @@ import static com.example.aca.findyourplace.RabbitMQ.mreza;
 
 public class Message2 {
     private String text;
+    private Date time;
     private int sender;
     private int receiver;
     private int convers;
-    private Date date;
 
     public Message2(){}
     public Message2(String tekst, int sender, int receiver, int convers, Date datum) {
@@ -25,13 +26,13 @@ public class Message2 {
         this.sender = sender;
         this.receiver = receiver;
         this.convers = convers;
-        this.date=datum;
+        this.time=datum;
     }
 
     public Message2 LoadMessage(){
 
-        GetDataTask gdt;
-        gdt=new GetDataTask();
+        DeleteDataTask gdt;
+        gdt=new DeleteDataTask();
         try {
             text=gdt.execute(mreza+"/user/1").get();
 
@@ -48,8 +49,8 @@ public class Message2 {
     }
     public ArrayList<Message2> loadMessages(int convId)
     {
-        GetDataTask gdt;
-        gdt=new GetDataTask();
+        DeleteDataTask gdt;
+        gdt=new DeleteDataTask();
         try {
             text=gdt.execute(mreza+ "message/conversation/" + convId).get();
 
@@ -70,6 +71,13 @@ public class Message2 {
 
     }
 
+    public void saveMessage()
+    {
+        PostDataTask pdt = new PostDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"message");
+    }
+
     public String getTekst() {
         return text;
     }
@@ -79,12 +87,14 @@ public class Message2 {
     }
 
     public Date getDate() {
-        return date;
+        return time;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.time = date;
     }
+
+
 
 //    public static String executePost(String targetURL, String urlParameters) {
 //        HttpURLConnection connection = null;

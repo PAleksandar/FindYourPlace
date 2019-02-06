@@ -8,8 +8,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.model.Comment;
+import com.example.aca.findyourplace.model.Conversation;
+import com.example.aca.findyourplace.model.Event;
+import com.example.aca.findyourplace.model.Message2;
+import com.example.aca.findyourplace.model.Notification;
 import com.example.aca.findyourplace.model.Place;
 import com.example.aca.findyourplace.model.User;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,15 +50,23 @@ public class LoginActivity extends AppCompatActivity {
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Message2 message = new Message2("Porukaaaaa",1,2,1,new Date("3/3/2018"));
                 User user = new User();
                 try {
-                    user = User.loadUserByEmail("stefan.g.krstic@elfak.rs");
+                    user = User.loadUser(5);
                 }
                 catch(Exception e)
                 {
 
                 }
-                testTextView.setText("Testirano: "+user.getEmail()+", "+user.getFirstName());
+                //user.setEmail("test@test.com");
+                //user.putUser();
+                user.deleteUser();
+                //message.saveMessage();
+                testTextView.setText("Proslo");
+               // testTextView.setText("Proslo" + message.getTekst()+message.getDate());
+                //testTextView.setText(user.getEmail()+user.getFirstName());
+
             }
         });
 
