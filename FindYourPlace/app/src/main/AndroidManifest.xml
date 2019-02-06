@@ -30,7 +30,8 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.Design.NoActionBar" />
         <activity android:name=".controller.SignInActivity" />
-        <activity android:name=".controller.StartPageActivity"></activity>
+        <activity android:name=".controller.StartPageActivity" />
+        <activity android:name=".controller.ChatActivity"></activity>
     </application>
 
 </manifest>
