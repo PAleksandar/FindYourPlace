@@ -14,7 +14,7 @@ router.get('/:id', ( req, res) => {
 }); 
 
 router.get('/email/:email', ( req,res) => {
-  const user = User.findAll({
+  const user = User.findOne({
     where: {
       email: req.params.email
     }
