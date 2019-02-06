@@ -2,6 +2,7 @@ package com.example.aca.findyourplace.model;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -80,6 +81,8 @@ public class PostDataTask extends AsyncTask<String, Void, String> {
     {
         Gson gson = new Gson();
         String s=gson.toJson(object);
+
+        Log.d("JSON object", "SetJsonObject: "+s);
         try {
             dataToSend = new JSONObject(s);
         } catch (JSONException e) {

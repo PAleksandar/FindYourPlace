@@ -59,14 +59,14 @@ public class LoginActivity extends AppCompatActivity {
     public void openSignIn()
     {
 
-            Intent intent = new Intent(this, RegisterActivity.class);
+            Intent intent = new Intent(this, SignInActivity.class);
             startActivity(intent);
 
 
     }
     public void openRegister()
     {
-        Intent intent=new Intent(this,ConversationActivity.class);
+        Intent intent=new Intent(this,RegisterActivity.class);
         //intent.putExtra("type",type);
         startActivity(intent);
     }
