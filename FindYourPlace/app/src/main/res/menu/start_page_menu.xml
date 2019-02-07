@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">>
+
+    <group android:checkableBehavior="single">
 
     <item android:id="@+id/event"
         android:icon="@drawable/ic_lista"
@@ -16,5 +20,6 @@
     <item android:id="@+id/odjava"
         android:icon="@drawable/zaodjavu"
         android:title="SIGN OUT"/>
+    </group>
 
 </menu>
