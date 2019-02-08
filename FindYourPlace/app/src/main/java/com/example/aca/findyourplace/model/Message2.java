@@ -31,8 +31,8 @@ public class Message2 {
 
     public Message2 LoadMessage(){
 
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             text=gdt.execute(mreza+"/user/1").get();
 
@@ -49,8 +49,8 @@ public class Message2 {
     }
     public ArrayList<Message2> loadMessages(int convId)
     {
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             text=gdt.execute(mreza+ "message/conversation/" + convId).get();
 

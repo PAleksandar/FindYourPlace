@@ -44,8 +44,8 @@ public class Event {
 
     public static Event loadEvent(int eventID) throws JSONException {
         String ev=null;
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             ev=gdt.execute(mreza+"event/"+eventID).get();
         } catch (InterruptedException e) {

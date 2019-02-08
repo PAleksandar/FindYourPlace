@@ -31,8 +31,8 @@ public class Notification {
     public static Notification loadNotification(int notificationID) throws JSONException
     {
         String nf=null;
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             nf=gdt.execute(mreza+"notification/"+notificationID).get();
         } catch (InterruptedException e) {

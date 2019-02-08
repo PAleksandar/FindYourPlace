@@ -55,8 +55,8 @@ public class User
 
     public static User loadUser(int userID) throws JSONException {
         String us=null;
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             us=gdt.execute(mreza+"user/"+userID).get();
         } catch (InterruptedException e) {

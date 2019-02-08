@@ -41,8 +41,8 @@ public class Place {
     public static Place loadPlace(int placeID) throws JSONException
     {
         String pl=null;
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             pl=gdt.execute(mreza+"place/"+placeID).get();
         } catch (InterruptedException e) {

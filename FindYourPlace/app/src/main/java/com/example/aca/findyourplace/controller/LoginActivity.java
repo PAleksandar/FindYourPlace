@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         type = getIntent().getStringExtra("type");
-
     }
 
     public void openSignIn()

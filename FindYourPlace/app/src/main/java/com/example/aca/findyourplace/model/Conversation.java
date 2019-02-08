@@ -26,8 +26,8 @@ public class Conversation {
     public static Conversation loadConversation(int conversationID) throws JSONException
     {
         String cv=null;
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             cv=gdt.execute(mreza+"conversation/"+conversationID).get();
         } catch (InterruptedException e) {

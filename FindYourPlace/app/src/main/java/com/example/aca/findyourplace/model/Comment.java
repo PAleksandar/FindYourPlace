@@ -35,8 +35,8 @@ public class Comment {
 
     public static Comment loadComment(int commentID) throws JSONException {
         String cm=null;
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             cm=gdt.execute(mreza+"comment/"+commentID).get();
         } catch (InterruptedException e) {
