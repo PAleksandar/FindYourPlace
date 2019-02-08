@@ -17,7 +17,7 @@
     <item android:id="@+id/help"
         android:icon="@drawable/zahelp"
         android:title="HELP"/>
-    <item android:id="@+id/odjava"
+    <item android:id="@+id/sign_out"
         android:icon="@drawable/zaodjavu"
         android:title="SIGN OUT"/>
     </group>

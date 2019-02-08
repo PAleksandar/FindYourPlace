@@ -47,10 +47,11 @@ public class HomeFragment extends Fragment {
 
     private void readEvents()
     {
-        //int id, String name, String tag, ArrayList<Byte> image, String description, int like
-        //    , Date date, int placeId, int ownerUserId
-        eventList.add(new Event(1,"Event 1", "Tag 1", null, "Opis", 3, new Date(),3,3));
-        eventList.add(new Event(2,"Event 2", "Tag 2", null, "Opis", 3, new Date(),3,3));
-        eventList.add(new Event(3,"Event 3", "Tag 3", null, "Opis", 3, new Date(),3,3));
+
+        // int id, String name, String tag,/* ArrayList<Byte> image,*/ String description, int like
+        // , Date date, int placeId, int ownerUserId
+        eventList.add(new Event(1,"Event 1", "Tag 1", "Opis", 3, new Date(),3,3));
+        eventList.add(new Event(2,"Event 2", "Tag 2", "Opis", 3, new Date(),3,3));
+        eventList.add(new Event(3,"Event 3", "Tag 3", "Opis", 3, new Date(),3,3));
     }
 }

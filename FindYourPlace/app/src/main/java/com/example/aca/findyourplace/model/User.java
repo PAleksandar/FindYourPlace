@@ -2,6 +2,8 @@ package com.example.aca.findyourplace.model;
 
 import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.rabbitmq.client.AMQP;
 
 import org.json.JSONException;
@@ -81,6 +83,36 @@ public class User
         PutDataTask pdt = new PutDataTask();
         pdt.SetJsonObject(this);
         pdt.execute(RabbitMQ.mreza+"user/"+this.id);
+    }
+
+    public void isActive(boolean state) throws ExecutionException, InterruptedException {
+
+        JsonObject jsonObject;
+        if(state) {
+             jsonObject = new JsonParser().parse("{\"isActive\": \"true\"}").getAsJsonObject();
+        }
+        else
+        {
+            jsonObject = new JsonParser().parse("{\"isActive\": \"false\"}").getAsJsonObject();
+        }
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(jsonObject);
+        pdt.execute(RabbitMQ.mreza+"user/isActive/"+this.id).get();
+    }
+
+    public static void isActive(int userId, boolean state) throws ExecutionException, InterruptedException {
+
+        JsonObject jsonObject;
+        if(state) {
+            jsonObject = new JsonParser().parse("{\"isActive\": \"true\"}").getAsJsonObject();
+        }
+        else
+        {
+            jsonObject = new JsonParser().parse("{\"isActive\": \"false\"}").getAsJsonObject();
+        }
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(jsonObject);
+        pdt.execute(RabbitMQ.mreza+"user/isActive/"+userId).get();
     }
 
     public void deleteUser()

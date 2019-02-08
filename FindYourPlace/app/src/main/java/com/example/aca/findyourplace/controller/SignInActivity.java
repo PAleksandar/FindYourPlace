@@ -15,6 +15,8 @@ import com.example.aca.findyourplace.model.User;
 
 import org.json.JSONException;
 
+import java.util.concurrent.ExecutionException;
+
 public class SignInActivity extends AppCompatActivity {
 
     private EditText txtEmail,txtPassword;
@@ -48,9 +50,17 @@ public class SignInActivity extends AppCompatActivity {
             Intent intent = new Intent(this, StartPageActivity.class);
 
             if(user!=null) {
-                String s=user.getFirstName();
+                try {
+                    user.isActive(true);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 int i=user.getId();
                 intent.putExtra("User",i);
+
+
 
                 startActivity(intent);
             }

@@ -15,6 +15,9 @@ import android.view.MenuItem;
 
 import com.example.aca.findyourplace.HomeFragment;
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.model.User;
+
+import java.util.concurrent.ExecutionException;
 
 public class StartPageActivity extends AppCompatActivity {
 
@@ -59,6 +62,20 @@ public class StartPageActivity extends AppCompatActivity {
                     Intent chat = new Intent(StartPageActivity.this, ChatActivity.class);
                     startActivity(chat);
 
+                }
+                else if(id ==R.id.sign_out)
+                {
+                    try {
+                        User.isActive(userId,false);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    Intent intent = new Intent(StartPageActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.start_page_drawer_layout);
