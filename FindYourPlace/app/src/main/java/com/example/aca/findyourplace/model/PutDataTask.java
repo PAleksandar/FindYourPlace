@@ -2,7 +2,6 @@ package com.example.aca.findyourplace.model;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -19,7 +18,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class PostDataTask extends AsyncTask<String, Void, String> {
+public class PutDataTask extends AsyncTask<String, Void, String> {
 
     String mResult;
     JSONObject dataToSend = new JSONObject();
@@ -47,7 +46,7 @@ public class PostDataTask extends AsyncTask<String, Void, String> {
     protected void onPreExecute()
     {
         super.onPreExecute();
-       // progressDialog=new ProgressDialog(MainActivity.this);
+        // progressDialog=new ProgressDialog(MainActivity.this);
         //progressDialog.setMessage("Inserting data...");
         //progressDialog.show();
     }
@@ -73,8 +72,6 @@ public class PostDataTask extends AsyncTask<String, Void, String> {
     {
         Gson gson = new Gson();
         String s=gson.toJson(object);
-
-        Log.d("JSON object", "SetJsonObject: "+s);
         try {
             dataToSend = new JSONObject(s);
         } catch (JSONException e) {
@@ -99,7 +96,7 @@ public class PostDataTask extends AsyncTask<String, Void, String> {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(10000);//milisecond
             urlConnection.setConnectTimeout(10000);
-            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestMethod("PUT");
             urlConnection.setDoOutput(true); //enable output (body data)
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.connect();

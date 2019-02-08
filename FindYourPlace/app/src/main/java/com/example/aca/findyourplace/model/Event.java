@@ -1,5 +1,6 @@
 package com.example.aca.findyourplace.model;
 
+import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -23,17 +24,17 @@ public class Event {
 
     public Event()
     {
-        image =  new ArrayList<Byte>();
+        //image =  new ArrayList<Byte>();
     }
 
-    public Event(int id, String name, String tag, ArrayList<Byte> image, String description, int like
+    public Event(int id, String name, String tag,/* ArrayList<Byte> image,*/ String description, int like
     , Date date, int placeId, int ownerUserId)
     {
-        this.image = new ArrayList<Byte>();
+        //this.image = new ArrayList<Byte>();
         this.id=id;
         this.name=name;
         this.tag=tag;
-        this.image=image;
+        //this.image=image;
         this.description=description;
         this.like=like;
         this.date=date;
@@ -55,6 +56,26 @@ public class Event {
         Event event=new Event();
         Gson gson = new Gson();
         return event= gson.fromJson(ev,Event.class);
+    }
+
+    public void saveEvent()
+    {
+        PostDataTask pdt = new PostDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"event");
+    }
+
+    public void putEvent()
+    {
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"event/"+this.id);
+    }
+
+    public void deleteEvent()
+    {
+        DeleteDataTask ddt = new DeleteDataTask();
+        ddt.execute(RabbitMQ.mreza+"event/"+this.id);
     }
 
     public int getId() {
