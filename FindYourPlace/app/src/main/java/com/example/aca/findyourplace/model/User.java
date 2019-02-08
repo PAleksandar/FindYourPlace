@@ -39,8 +39,8 @@ public class User
 
     public static User loadUserByEmail(String email, String password) throws JSONException {
         String us=null;
-        DeleteDataTask gdt;
-        gdt=new DeleteDataTask();
+        GetDataTask gdt;
+        gdt=new GetDataTask();
         try {
             us=gdt.execute(mreza+"user/email/"+email+"/"+password).get();
         } catch (InterruptedException e) {
