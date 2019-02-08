@@ -65,6 +65,19 @@ public class Event {
         pdt.execute(RabbitMQ.mreza+"event");
     }
 
+    public void putEvent()
+    {
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"event/"+this.id);
+    }
+
+    public void deleteEvent()
+    {
+        DeleteDataTask ddt = new DeleteDataTask();
+        ddt.execute(RabbitMQ.mreza+"event/"+this.id);
+    }
+
     public int getId() {
         return id;
     }

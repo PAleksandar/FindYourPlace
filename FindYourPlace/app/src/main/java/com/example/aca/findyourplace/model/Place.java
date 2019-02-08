@@ -62,6 +62,19 @@ public class Place {
         pdt.execute(RabbitMQ.mreza+"place");
     }
 
+    public void putPlace()
+    {
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"place/"+this.id);
+    }
+
+    public void deletePlace()
+    {
+        DeleteDataTask ddt = new DeleteDataTask();
+        ddt.execute(RabbitMQ.mreza+"place/"+this.id);
+    }
+
     public int getId() {
         return id;
     }

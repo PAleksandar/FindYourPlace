@@ -52,6 +52,19 @@ public class Notification {
         pdt.execute(RabbitMQ.mreza+"notification");
     }
 
+    public void putNotification()
+    {
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"notification/"+this.id);
+    }
+
+    public void deleteNotification()
+    {
+        DeleteDataTask ddt = new DeleteDataTask();
+        ddt.execute(RabbitMQ.mreza+"notification/"+this.id);
+    }
+
     public int getId() {
         return id;
     }

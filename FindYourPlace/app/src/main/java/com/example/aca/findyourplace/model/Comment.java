@@ -56,6 +56,19 @@ public class Comment {
         pdt.execute(RabbitMQ.mreza+"comment");
     }
 
+    public void putComment()
+    {
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"comment/"+this.id);
+    }
+
+    public void deleteComment()
+    {
+        DeleteDataTask ddt = new DeleteDataTask();
+        ddt.execute(RabbitMQ.mreza+"comment/"+this.id);
+    }
+
     public int getId() {
         return id;
     }

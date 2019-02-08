@@ -44,32 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         });
         type = getIntent().getStringExtra("type");
 
-        Button testBtn = (Button) findViewById(R.id.testBtn);
-        TextView testTextView = (TextView) findViewById(R.id.testTextView);
-
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Message2 message = new Message2("Porukaaaaa",1,2,1,new Date("3/3/2018"));
-                User user = new User();
-                try {
-                    user = User.loadUser(5);
-                }
-                catch(Exception e)
-                {
-
-                }
-                //user.setEmail("test@test.com");
-                //user.putUser();
-                user.deleteUser();
-                //message.saveMessage();
-                testTextView.setText("Proslo");
-               // testTextView.setText("Proslo" + message.getTekst()+message.getDate());
-                //testTextView.setText(user.getEmail()+user.getFirstName());
-
-            }
-        });
-
     }
 
     public void openSignIn()

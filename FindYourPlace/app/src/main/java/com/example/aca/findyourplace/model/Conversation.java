@@ -47,6 +47,19 @@ public class Conversation {
         pdt.execute(RabbitMQ.mreza+"conversation");
     }
 
+    public void putConversation()
+    {
+        PutDataTask pdt = new PutDataTask();
+        pdt.SetJsonObject(this);
+        pdt.execute(RabbitMQ.mreza+"conversation/"+this.id);
+    }
+
+    public void deleteConversation()
+    {
+        DeleteDataTask ddt = new DeleteDataTask();
+        ddt.execute(RabbitMQ.mreza+"conversation/"+this.id);
+    }
+
     public int getId() {
         return id;
     }
