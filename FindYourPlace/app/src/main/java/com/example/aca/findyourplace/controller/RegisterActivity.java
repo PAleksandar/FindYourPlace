@@ -2,6 +2,7 @@ package com.example.aca.findyourplace.controller;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +17,13 @@ import com.example.aca.findyourplace.R;
 import com.example.aca.findyourplace.RabbitMQ;
 import com.example.aca.findyourplace.model.PostDataTask;
 import com.example.aca.findyourplace.model.User;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -51,16 +55,27 @@ public class RegisterActivity extends AppCompatActivity {
             String password = mPassword.getText().toString();
             String name = mName.getText().toString();
             String lastName = mLastName.getText().toString();
+            String us=null;
 
             //int id, String email, String password, String firstName, String lastName, boolean isActive, Date birthday
             User user=new User(0,email,password,name,lastName,true,date);
             PostDataTask pdt = new PostDataTask();
             // pdt.SetJSONMessage(et.getText().toString(),1,2,1);
             pdt.SetJsonObject(user);
-            pdt.execute(RabbitMQ.mreza+"user");
+            try {
+                us=pdt.execute(RabbitMQ.mreza+"user").get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+
+            JsonObject jsonObject = new JsonParser().parse(us).getAsJsonObject();
+            int userId=jsonObject.get("id").getAsInt();
 
             Intent intent = new Intent(this, StartPageActivity.class);
-            intent.putExtra("User",1);
+            intent.putExtra("User",userId);
             startActivity(intent);
 
         });

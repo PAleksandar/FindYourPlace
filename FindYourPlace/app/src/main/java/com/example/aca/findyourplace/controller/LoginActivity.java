@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 User user = new User();
                 try {
-                    user = User.loadUserByEmail("stefan.g.krstic@elfak.rs");
+                    user = User.loadUserByEmail("stefan.g.krstic@elfak.rs", "testiranje");
                 }
                 catch(Exception e)
                 {
