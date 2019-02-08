@@ -69,11 +69,11 @@
             app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edtPhone"
+            android:id="@+id/lastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Phone"
-            android:inputType="phone"
+            android:hint="Name"
+            android:inputType="text"
             android:text=""
             android:textColor="@color/bela"
             android:textColorHint="@color/bela"
@@ -83,6 +83,26 @@
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/bela"
             app:met_singleLineEllipsis="true" />
+
+
+        <Button
+            android:id="@+id/dateButton"
+            android:layout_width="160dp"
+
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_date"
+            android:text="REGISTER"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.904" />
+
 
         <TextView
             android:id="@+id/textView2"

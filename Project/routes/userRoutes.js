@@ -13,10 +13,11 @@ router.get('/:id', ( req, res) => {
   const user = User.findById(req.params.id).then((u)=>{res.send(u).json});
 }); 
 
-router.get('/email/:email', ( req,res) => {
+router.get('/email/:email/:password', ( req,res) => {
   const user = User.findOne({
     where: {
-      email: req.params.email
+      email: req.params.email,
+      password: req.params.password
     }
   }).then((u) => {res.send(u).json});
 });
@@ -30,6 +31,15 @@ router.put('/:id', ( req, res) => {
     'isActive': req.body.isActive,
     'profileImage': req.body.profileImage,
     'birthday': new Date(req.body.birthday),
+  }, { where: { id: req.params.id } })
+  .then((u) => { res.send(u).json; });
+});
+
+router.put('/isActive/:id', ( req, res) => {
+  User.update({
+   
+    'isActive': req.body.isActive
+    
   }, { where: { id: req.params.id } })
   .then((u) => { res.send(u).json; });
 });

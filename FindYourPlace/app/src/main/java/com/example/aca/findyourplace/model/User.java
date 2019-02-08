@@ -28,7 +28,7 @@ public class User
 
     public User(int id, String email, String password, String firstName, String lastName, boolean isActive, Date birthday)
     {
-        this.id=id;
+        this.id= id;
         this.email=email;
         this.password=password;
         this.firstName=firstName;
@@ -37,12 +37,12 @@ public class User
         this.birthday=birthday;
     }
 
-    public static User loadUserByEmail(String email) throws JSONException {
+    public static User loadUserByEmail(String email, String password) throws JSONException {
         String us=null;
         DeleteDataTask gdt;
         gdt=new DeleteDataTask();
         try {
-            us=gdt.execute(mreza+"user/email/"+email).get();
+            us=gdt.execute(mreza+"user/email/"+email+"/"+password).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
