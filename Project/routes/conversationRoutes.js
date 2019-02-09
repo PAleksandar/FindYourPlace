@@ -13,6 +13,14 @@ router.get('/:id', function (req, res) {
      const conversation = Conversation.findById(req.params.id).then((m)=>{res.send(m).json;});
  });
 
+router.get('/user/:id', function (req, res) {
+    const conversation = Conversation.findAll({
+        where:{
+            user1: req.params.id
+        }
+    }).then((m)=>{res.send(m).json;});
+});
+
 router.delete('/:id', function (req, res) {
     
     const conversation = Conversation.findById(req.params.id).then((task)=>{return task.destroy()}).then(()=>{res.status(200).send();})
