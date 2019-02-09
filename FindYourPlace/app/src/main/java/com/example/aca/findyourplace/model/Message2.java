@@ -47,27 +47,32 @@ public class Message2 {
 
         return data;
     }
-    public ArrayList<Message2> loadMessages(int convId)
+    public static ArrayList<Message2> loadMessages(int convId)
     {
+        String text;
         GetDataTask gdt;
         gdt=new GetDataTask();
         try {
             text=gdt.execute(mreza+ "message/conversation/" + convId).get();
+
+            Log.d("cccc", text);
+            Type listType = new TypeToken<ArrayList<Message2>>(){}.getType();
+            ArrayList<Message2> data = new ArrayList<Message2>();
+            Gson gson = new Gson();
+            data= gson.fromJson(text,listType);
+            Integer size = data.size();
+            Log.d("list",size.toString());
+
+            return data;
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        Log.d("cccc", text);
-        Type listType = new TypeToken<ArrayList<Message2>>(){}.getType();
-        ArrayList<Message2> data = new ArrayList<Message2>();
-        Gson gson = new Gson();
-        data= gson.fromJson(text,listType);
-        Integer size = data.size();
-        Log.d("list",size.toString());
 
-        return data;
+
+        return new ArrayList<Message2>();
 
     }
 

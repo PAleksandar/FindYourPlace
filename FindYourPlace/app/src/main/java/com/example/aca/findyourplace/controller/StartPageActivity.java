@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.aca.findyourplace.ChatFragment;
 import com.example.aca.findyourplace.HomeFragment;
 import com.example.aca.findyourplace.R;
 import com.example.aca.findyourplace.model.User;
@@ -56,11 +57,12 @@ public class StartPageActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.chat) {
-                    //Toast.makeText(CustomerMapsActivity.this,"chat", Toast.LENGTH_LONG).show();
-                    // Handle the camera action
+                   /*
                     Log.d("chat", "onNavigationItemSelected: ");
                     Intent chat = new Intent(StartPageActivity.this, ChatActivity.class);
-                    startActivity(chat);
+                    startActivity(chat);cm
+                    */
+                    getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new ChatFragment(userId)).commit();
 
                 }
                 else if(id ==R.id.sign_out)

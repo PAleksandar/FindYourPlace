@@ -1,10 +1,15 @@
 package com.example.aca.findyourplace.model;
 
+import android.util.Log;
+
 import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.aca.findyourplace.RabbitMQ.mreza;
@@ -39,6 +44,27 @@ public class Conversation {
         Gson gson = new Gson();
         return conversation= gson.fromJson(cv,Conversation.class);
     }
+
+    public static ArrayList<Conversation> loadConversationForUser(int userId) throws JSONException
+    {
+        String cv=null;
+        GetDataTask gdt;
+        gdt=new GetDataTask();
+        try {
+            cv=gdt.execute(mreza+"conversation/user/"+userId).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Type listType = new TypeToken<ArrayList<Conversation>>(){}.getType();
+        ArrayList<Conversation> conversation=new ArrayList<Conversation>();
+        Gson gson = new Gson();
+        return conversation= gson.fromJson(cv,listType);
+    }
+
+
 
     public void saveConversation()
     {

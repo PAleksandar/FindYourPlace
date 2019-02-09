@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".controller.ChatActivity">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chat "
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="170dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chat_fragment_container"
+        >
+
+    </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>
