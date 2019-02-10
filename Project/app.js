@@ -26,8 +26,10 @@ const Notification = sequelize.import('./models/notification');
 
 const PORT = process.env.PORT || 5000;
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }))
+//app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use("/user",userRouter);
 app.use("/notification",notificationRouter);
 app.use("/comment",commentRouter);
@@ -35,5 +37,6 @@ app.use("/message",messageRouter);
 app.use("/conversation",conversationRouter);
 app.use("/place", placeRouter);
 app.use("/event",eventRouter);
+
 
 app.listen(PORT,console.log(`Server started on port izmena ${PORT}.`));

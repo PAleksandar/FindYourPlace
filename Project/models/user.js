@@ -6,8 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN,
-    profileImage: DataTypes.BLOB,
+    profileImage: DataTypes.BLOB("long"),
     birthday: DataTypes.DATE
+    
   }, {
     timestamps: false
   });
