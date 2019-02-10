@@ -1,6 +1,8 @@
 package com.example.aca.findyourplace;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,8 @@ import com.example.aca.findyourplace.model.User;
 
 import org.json.JSONException;
 
+import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapter.ViewHolder>{
@@ -43,10 +47,16 @@ public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapt
         try {
              User user=User.loadUser(conversation.getUser2());
              holder.username.setText(user.getFirstName()+"  "+user.getLastName());
+
+            //final InputStream imageStream=user.getProfileImage().getBinaryStream();
+           // Bitmap image = BitmapFactory.decodeStream(imageStream);
+
+             //holder.image_profile.setImageBitmap(image);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-
+        }// catch (SQLException e) {
+           // e.printStackTrace();
+        //}
 
 
         //publisherInfo(holder.image_profile,holder.username);

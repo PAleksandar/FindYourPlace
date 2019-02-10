@@ -12,6 +12,8 @@ import com.example.aca.findyourplace.model.Event;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>{
 
 
@@ -43,6 +45,8 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             holder.description.setText(event.getDescription());
         }
 
+
+
         publisherInfo(holder.image_profile,holder.username,holder.publisher,"1");
     }
 
@@ -56,6 +60,7 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
 
         public ImageView image_profile, post_image, like, comment, save;
         public TextView username, likes, publisher, description, comments;
+        public CircleImageView img;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -70,6 +75,8 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             username=itemView.findViewById(R.id.username);
             likes=itemView.findViewById(R.id.likes);
             description=itemView.findViewById(R.id.description);
+
+            img=itemView.findViewById(R.id.profile_image_view);
         }
     }
 

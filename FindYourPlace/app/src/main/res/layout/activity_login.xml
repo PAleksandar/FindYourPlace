@@ -32,6 +32,9 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+
+
     <TextView
         android:id="@+id/txt_rider_app"
         android:layout_alignParentBottom="true"

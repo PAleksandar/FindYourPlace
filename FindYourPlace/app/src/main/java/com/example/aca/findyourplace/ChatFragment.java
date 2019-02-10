@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +23,18 @@ import com.example.aca.findyourplace.controller.ChatActivity;
 import com.example.aca.findyourplace.controller.StartPageActivity;
 import com.example.aca.findyourplace.model.Conversation;
 import com.example.aca.findyourplace.model.Event;
+import com.example.aca.findyourplace.model.User;
 
 import org.json.JSONException;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.jar.Attributes;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ChatFragment extends Fragment {
@@ -52,6 +61,29 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_chat,container,false);
+
+        CircleImageView img=view.findViewById(R.id.profile_image_view);
+
+        Runnable load = new Runnable()
+        {
+            @Override
+            public void run() {
+                try {
+                    User us = User.loadUser(userId);
+                    final ByteArrayOutputStream imageStream=us.getProfileImage();
+                    byte[] byteArray = imageStream .toByteArray();
+                    ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(byteArray);
+                    Bitmap image = BitmapFactory.decodeStream(arrayInputStream);
+
+                    img.setImageBitmap(image);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        load.run();
+
 
         recyclerView=view.findViewById(R.id.chat_fragment_recycler_view);
         recyclerView.setHasFixedSize(true);
