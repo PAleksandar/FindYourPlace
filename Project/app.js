@@ -28,8 +28,8 @@ const PORT = process.env.PORT || 5000;
 
 //app.use(bodyParser.urlencoded({ extended: false }))
 //app.use(bodyParser.json());
-app.use(bodyParser.json({limit: '10mb', extended: true}))
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+app.use(bodyParser.json({limit: '100mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
 app.use("/user",userRouter);
 app.use("/notification",notificationRouter);
 app.use("/comment",commentRouter);
