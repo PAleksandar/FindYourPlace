@@ -12,12 +12,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.example.aca.findyourplace.ImageTestActivity;
 import com.example.aca.findyourplace.R;
 import com.example.aca.findyourplace.RabbitMQ;
 import com.example.aca.findyourplace.model.PostDataTask;
@@ -37,6 +39,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
+//import javax.sql.rowset.serial.SerialBlob;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,10 +52,12 @@ public class RegisterActivity extends AppCompatActivity {
     private int mYear, mMonth, mDay;
     private final static int Gallery_Pick = 1;
     Bitmap image;
+    Bitmap imageBtm;
     CircleImageView slika;
     byte[] imageBytes;
     Blob imageBlob;
     ByteArrayOutputStream byteArrayOutputStream;
+    String stringBmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +85,8 @@ public class RegisterActivity extends AppCompatActivity {
             String us=null;
 
             //int id, String email, String password, String firstName, String lastName, boolean isActive, Date birthday
-            User user=new User(0,email,password,name,lastName,true,date,byteArrayOutputStream);
+           // Blob bl=new SerialBlob(imageBytes);
+            User user=new User(0,email,password,name,lastName,true,date,stringBmp);
 
             try {
                 us=user.saveUser();
@@ -105,6 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
             int userId=jsonObject.get("id").getAsInt();
 
             Intent intent = new Intent(this, StartPageActivity.class);
+           // Intent intent = new Intent(this, ImageTestActivity.class);
             intent.putExtra("User",userId);
             startActivity(intent);
 
@@ -172,77 +179,26 @@ public class RegisterActivity extends AppCompatActivity {
 
             try {
                 final InputStream imageStream = getContentResolver().openInputStream(selectedImage);
-                image = BitmapFactory.decodeStream(imageStream);
-                slika.setImageBitmap(image);
+                imageBtm = BitmapFactory.decodeStream(imageStream);
+                /////////////////////////////////////////
+                ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+                imageBtm.compress(Bitmap.CompressFormat.PNG,0, baos);
+                byte [] b=baos.toByteArray();
+                stringBmp=Base64.encodeToString(b, Base64.DEFAULT);
+                /////////////////////////////////////////
+               /* slika.setImageBitmap(image);
 
                 imageBytes=IOUtils.toByteArray(imageStream);
 
                  byteArrayOutputStream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-               // imageBlob=imageBytes;
-                imageBlob=new Blob() {
-                    @Override
-                    public long length() throws SQLException {
-                        return 0;
-                    }
+                image.compress(Bitmap.CompressFormat.JPEG, 1, byteArrayOutputStream);
 
-                    @Override
-                    public byte[] getBytes(long pos, int length) throws SQLException {
-                        return new byte[0];
-                    }
-
-                    @Override
-                    public InputStream getBinaryStream() throws SQLException {
-                        return null;
-                    }
-
-                    @Override
-                    public long position(byte[] pattern, long start) throws SQLException {
-                        return 0;
-                    }
-
-                    @Override
-                    public long position(Blob pattern, long start) throws SQLException {
-                        return 0;
-                    }
-
-                    @Override
-                    public int setBytes(long pos, byte[] bytes) throws SQLException {
-                        return 0;
-                    }
-
-                    @Override
-                    public int setBytes(long pos, byte[] bytes, int offset, int len) throws SQLException {
-                        return 0;
-                    }
-
-                    @Override
-                    public OutputStream setBinaryStream(long pos) throws SQLException {
-                        return null;
-                    }
-
-                    @Override
-                    public void truncate(long len) throws SQLException {
-
-                    }
-
-                    @Override
-                    public void free() throws SQLException {
-
-                    }
-
-                    @Override
-                    public InputStream getBinaryStream(long pos, long length) throws SQLException {
-                        return null;
-                    }
-                };
-                imageBlob.setBytes(0,imageBytes);
+                */
+               // imageBlob.setBytes(0,imageBytes);
 
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (SQLException e) {
                 e.printStackTrace();
             }
 

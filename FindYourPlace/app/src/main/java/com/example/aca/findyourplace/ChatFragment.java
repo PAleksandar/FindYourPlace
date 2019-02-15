@@ -62,28 +62,6 @@ public class ChatFragment extends Fragment {
 
         View view=inflater.inflate(R.layout.fragment_chat,container,false);
 
-        CircleImageView img=view.findViewById(R.id.profile_image_view);
-
-        Runnable load = new Runnable()
-        {
-            @Override
-            public void run() {
-                try {
-                    User us = User.loadUser(userId);
-                    final ByteArrayOutputStream imageStream=us.getProfileImage();
-                    byte[] byteArray = imageStream .toByteArray();
-                    ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(byteArray);
-                    Bitmap image = BitmapFactory.decodeStream(arrayInputStream);
-
-                    img.setImageBitmap(image);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        load.run();
-
 
         recyclerView=view.findViewById(R.id.chat_fragment_recycler_view);
         recyclerView.setHasFixedSize(true);

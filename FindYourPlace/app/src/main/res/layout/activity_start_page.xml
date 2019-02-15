@@ -9,11 +9,6 @@
 
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/test_load_image_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@mipmap/ic_launcher" />
 
 
     <FrameLayout

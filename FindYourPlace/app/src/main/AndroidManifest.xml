@@ -3,7 +3,7 @@
     package="com.example.aca.findyourplace">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -32,7 +32,8 @@
             android:theme="@style/Theme.Design.NoActionBar" />
         <activity android:name=".controller.SignInActivity" />
         <activity android:name=".controller.StartPageActivity" />
-        <activity android:name=".controller.ChatActivity"></activity>
+        <activity android:name=".controller.ChatActivity" />
+        <activity android:name=".ImageTestActivity"></activity>
     </application>
 
 </manifest>

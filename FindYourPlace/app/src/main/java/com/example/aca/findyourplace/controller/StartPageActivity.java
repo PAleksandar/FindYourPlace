@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +44,7 @@ public class StartPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_page);
 
-        img=(CircleImageView) findViewById(R.id.test_load_image_view);
+       // img=(CircleImageView) findViewById(R.id.test_load_image_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.start_page_drawer_layout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
         mDrawerLayout.addDrawerListener(mToggle);
@@ -51,7 +52,7 @@ public class StartPageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        //getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new HomeFragment()).commit();
 
         userId = (int) getIntent().getExtras().get("User");
         Log.d("Start page @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +
@@ -60,17 +61,27 @@ public class StartPageActivity extends AppCompatActivity {
                 "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", "user id: " + userId);
 
 
-        try {
-            User us=User.loadUser(userId);
-            final ByteArrayOutputStream  imageStream=us.getProfileImage();
-            byte[] byteArray = imageStream .toByteArray();
-            ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(byteArray);
-            Bitmap image = BitmapFactory.decodeStream(arrayInputStream);
 
-           img.setImageBitmap(image);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+    /*
+            try {
+                User us = User.loadUser(userId);
+                //////////////////////////////////
+                try {
+                    byte [] encodeByte=Base64.decode(us.getImage(),Base64.DEFAULT);
+                    Bitmap image=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                    img.setImageBitmap(image);
+                } catch(Exception e) {
+                    e.getMessage();
+
+                }
+
+                //img.setImageBitmap(image);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+    */
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView == null)

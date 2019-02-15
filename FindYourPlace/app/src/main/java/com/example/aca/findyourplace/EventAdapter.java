@@ -76,7 +76,7 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             likes=itemView.findViewById(R.id.likes);
             description=itemView.findViewById(R.id.description);
 
-            img=itemView.findViewById(R.id.profile_image_view);
+            //img=itemView.findViewById(R.id.profile_image_view);
         }
     }
 

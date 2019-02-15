@@ -27,6 +27,15 @@ public class User
     boolean isActive;
     Date birthday;
     ByteArrayOutputStream profileImage;
+    String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public ByteArrayOutputStream getProfileImage() {
         return profileImage;
@@ -53,7 +62,7 @@ public class User
         this.profileImage=null;
     }
 
-    public User(int id, String email, String password, String firstName, String lastName, boolean isActive, Date birthday, ByteArrayOutputStream profileImage)
+    public User(int id, String email, String password, String firstName, String lastName, boolean isActive, Date birthday, String image)
     {
         this.id= id;
         this.email=email;
@@ -62,7 +71,8 @@ public class User
         this.lastName=lastName;
         this.isActive=isActive;
         this.birthday=birthday;
-        this.profileImage=profileImage;
+        this.profileImage=null;
+        this.image=image;
     }
 
     public static User loadUserByEmail(String email, String password) throws JSONException {
