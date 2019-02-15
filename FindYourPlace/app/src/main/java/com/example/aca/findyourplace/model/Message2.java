@@ -20,6 +20,14 @@ public class Message2 {
     private int receiver;
     private int convers;
 
+    public int getSender() {
+        return sender;
+    }
+
+    public void setSender(int sender) {
+        this.sender = sender;
+    }
+
     public Message2(){}
     public Message2(String tekst, int sender, int receiver, int convers, Date datum) {
         this.text=tekst;

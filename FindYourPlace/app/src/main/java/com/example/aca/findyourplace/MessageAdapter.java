@@ -1,7 +1,10 @@
 package com.example.aca.findyourplace;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,17 +44,24 @@ public class MessageAdapter extends  RecyclerView.Adapter<MessageAdapter.ViewHol
 
 
         holder.message_text.setText(message.getTekst());
-/*
+
         try {
-           // User user=User.loadUser(conversation.getUser2());
-          //  holder.username.setText(user.getFirstName()+"  "+user.getLastName());
+            User us = User.loadUser(message.getSender());
+            //////////////////////////////////
+            try {
+                byte [] encodeByte=Base64.decode(us.getImage(),Base64.DEFAULT);
+                Bitmap image=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                holder.image_profile.setImageBitmap(image);
+            } catch(Exception e) {
+                e.getMessage();
+
+            }
+
+            //img.setImageBitmap(image);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-*/
 
-
-        //publisherInfo(holder.image_profile,holder.username);
     }
 
     @Override
