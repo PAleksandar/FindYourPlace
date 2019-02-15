@@ -1,5 +1,7 @@
 package com.example.aca.findyourplace.model;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -8,6 +10,8 @@ import com.rabbitmq.client.AMQP;
 
 import org.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
+import java.sql.Blob;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -22,6 +26,24 @@ public class User
     String lastName;
     boolean isActive;
     Date birthday;
+    ByteArrayOutputStream profileImage;
+    String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public ByteArrayOutputStream getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(ByteArrayOutputStream profileImage) {
+        this.profileImage = profileImage;
+    }
 
     public User()
     {
@@ -37,6 +59,20 @@ public class User
         this.lastName=lastName;
         this.isActive=isActive;
         this.birthday=birthday;
+        this.profileImage=null;
+    }
+
+    public User(int id, String email, String password, String firstName, String lastName, boolean isActive, Date birthday, String image)
+    {
+        this.id= id;
+        this.email=email;
+        this.password=password;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.isActive=isActive;
+        this.birthday=birthday;
+        this.profileImage=null;
+        this.image=image;
     }
 
     public static User loadUserByEmail(String email, String password) throws JSONException {
@@ -71,11 +107,12 @@ public class User
         return user= gson.fromJson(us,User.class);
     }
 
-    public void saveUser()
-    {
+    public String saveUser() throws ExecutionException, InterruptedException {
+        String s=null;
         PostDataTask pdt = new PostDataTask();
         pdt.SetJsonObject(this);
-        pdt.execute(RabbitMQ.mreza+"user");
+        s=pdt.execute(RabbitMQ.mreza+"user").get();
+        return s;
     }
 
     public void putUser()

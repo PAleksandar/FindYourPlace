@@ -6,7 +6,19 @@ module.exports = (sequelize, DataTypes) => {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN,
-    profileImage: DataTypes.BLOB("long"),
+    profileImage: DataTypes.BLOB, //{
+      //type: DataTypes.BLOB,
+     // allowNull: false,
+     /* get() {
+        return this.getDataValue('profileImage');//.toString('utf8'); // or whatever encoding is right
+      },
+      set(val) {
+        this.setDataValue('profileImage', val);
+      }*/
+   // },
+    
+   image: DataTypes.TEXT,
+   
     birthday: DataTypes.DATE
     
   }, {

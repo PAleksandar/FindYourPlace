@@ -30,6 +30,7 @@ router.put('/:id', ( req, res) => {
     'lastName': req.body.lastName,
     'isActive': req.body.isActive,
     'profileImage': req.body.profileImage,
+    'image': req.body.image,
     'birthday': new Date(req.body.birthday),
   }, { where: { id: req.params.id } })
   .then((u) => { res.send(u).json; });
@@ -52,6 +53,7 @@ router.post('/', ( req, res) => {
     'lastName': req.body.lastName,
     'isActive': req.body.isActive,
     'profileImage': req.body.profileImage,
+    'image': req.body.image,
     'birthday': new Date(req.body.birthday)
   }).then((u) => { res.send(u).json; });
 });

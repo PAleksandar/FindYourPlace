@@ -19,10 +19,13 @@ import com.example.aca.findyourplace.model.User;
 import java.util.ArrayList;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class LoginActivity extends AppCompatActivity {
 
     Button btnSignIn,btnRegister;
     String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
         btnSignIn=(Button) findViewById(R.id.btnSignIn);
         btnRegister=(Button) findViewById(R.id.btnRegister);
+
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
