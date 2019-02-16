@@ -6,10 +6,18 @@
     <group android:checkableBehavior="single">
 
 
-
-    <item android:id="@+id/event"
-        android:icon="@drawable/ic_lista"
-        android:title="EVENTS"/>
+        <item
+            android:id="@+id/eventDodaj"
+            android:icon="@drawable/ic_lista"
+            android:title="Dodaj dogadjaj" />
+        <item
+            android:id="@+id/event"
+            android:icon="@drawable/ic_lista"
+            android:title="EVENTS" />
+        <item
+            android:id="@+id/event2"
+            android:icon="@drawable/ic_lista"
+            android:title="eventProba" />
     <item android:id="@+id/update"
         android:icon="@drawable/zapromenu"
         android:title="UPDATE INFORMATION"/>
