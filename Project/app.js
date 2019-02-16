@@ -5,6 +5,7 @@ const path = require('path');
 const models = require('./config/database');
 const placeRouter = require('./routes/placeRoute');
 const eventRouter = require('./routes/eventRoute');
+const auth = require('./middleware/auth');
 
 // models 
 var messageRouter = require('./routes/messageRoutes');
@@ -30,6 +31,7 @@ const PORT = process.env.PORT || 5000;
 //app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '100mb', extended: true}))
 app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
+//app.use(auth);
 app.use("/user",userRouter);
 app.use("/notification",notificationRouter);
 app.use("/comment",commentRouter);
