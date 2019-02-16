@@ -19,6 +19,7 @@ public class Event {
     int id;
     String name;
     String tag;
+
     String description;
     int like;
     Date date;
@@ -132,6 +133,7 @@ public class Event {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
 
 
     public String getDescription() {
