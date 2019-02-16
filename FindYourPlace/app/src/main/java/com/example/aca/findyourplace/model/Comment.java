@@ -33,6 +33,16 @@ public class Comment {
         this.placeId=placeId;
     }
 
+    public Comment(String text, Date date, int like, int userId, int placeId)
+    {
+        //this.id=null;
+        this.text=text;
+        this.date=date;
+        this.like=like;
+        this.userId=userId;
+        this.placeId=placeId;
+    }
+
     public static Comment loadComment(int commentID) throws JSONException {
         String cm=null;
         GetDataTask gdt;

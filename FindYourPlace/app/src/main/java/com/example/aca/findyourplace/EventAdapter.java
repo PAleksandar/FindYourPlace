@@ -1,15 +1,31 @@
 package com.example.aca.findyourplace;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.aca.findyourplace.controller.AddCommentActivity;
+import com.example.aca.findyourplace.controller.LoginActivity;
+import com.example.aca.findyourplace.model.Comment;
 import com.example.aca.findyourplace.model.Event;
+import com.example.aca.findyourplace.model.User;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -23,6 +39,13 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
     public EventAdapter(Context mContext, List<Event> mPost) {
         this.mContext = mContext;
         this.mPost = mPost;
+    }
+
+    public void update(List<Event> eventList)
+    {
+        mPost=new ArrayList<>();
+        mPost.addAll(eventList);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -45,9 +68,62 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             holder.description.setText(event.getDescription());
         }
 
+        holder.description.setText(event.getDescription());
+        holder.likes.setText(Integer.toString(event.getLike()));
+        try {
+            User user=User.loadUser(event.getOwnerUserId());
+            holder.username.setText(user.getFirstName()+" "+user.getLastName());
+
+            try {
+                byte [] encodeByte=Base64.decode(user.getImage(),Base64.DEFAULT);
+                Bitmap image=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                holder.image_profile.setImageBitmap(image);
+                holder.post_image.setImageBitmap(image);
+            } catch(Exception e) {
+                e.getMessage();
+
+            }
+
+            //holder.image_profile
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
-        publisherInfo(holder.image_profile,holder.username,holder.publisher,"1");
+        holder.comment.setOnClickListener( (v)->{
+
+            // Intent intent = new Intent(mContext, AddCommentActivity.class);
+            //mContext.startActivity(intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle("Write comment");
+
+
+            final EditText input = new EditText(mContext);
+
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+            builder.setView(input);
+
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String text=input.getText().toString();
+                    holder.comments.setText(text);
+
+                    Comment com=new Comment(text,new Date(System.currentTimeMillis()),0,event.getOwnerUserId(),event.getPlaceId());
+                    com.saveComment();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+        });
+
     }
 
     @Override
@@ -77,6 +153,7 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             description=itemView.findViewById(R.id.description);
 
             //img=itemView.findViewById(R.id.profile_image_view);
+
         }
     }
 

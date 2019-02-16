@@ -33,7 +33,8 @@
         <activity android:name=".controller.SignInActivity" />
         <activity android:name=".controller.StartPageActivity" />
         <activity android:name=".controller.ChatActivity" />
-        <activity android:name=".ImageTestActivity"></activity>
+        <activity android:name=".ImageTestActivity" />
+        <activity android:name=".controller.AddCommentActivity"></activity>
     </application>
 
 </manifest>

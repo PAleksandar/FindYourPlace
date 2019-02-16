@@ -18,6 +18,7 @@ import com.example.aca.findyourplace.model.User;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageAdapter extends  RecyclerView.Adapter<MessageAdapter.ViewHolder>{
@@ -29,6 +30,13 @@ public class MessageAdapter extends  RecyclerView.Adapter<MessageAdapter.ViewHol
     public MessageAdapter(Context mContext, List<Message2> mPost) {
         this.mContext = mContext;
         this.mMessages = mPost;
+    }
+
+    public void update(List<Message2> newList)
+    {
+        mMessages=new ArrayList<>();
+        mMessages.addAll(newList);
+        notifyDataSetChanged();
     }
 
     @Override

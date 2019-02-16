@@ -8,20 +8,25 @@ import android.os.Bundle;
 import com.example.aca.findyourplace.Chat1to1Fragment;
 import com.example.aca.findyourplace.HomeFragment;
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.model.Conversation;
 
 public class ChatActivity extends AppCompatActivity {
 
     private int conversatioId;
+    private int userId;
+    private Conversation conversation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        conversatioId = (int) getIntent().getExtras().get("Conversation");
-        //conversationUserId= (int) getIntent().getExtras().get("ConversationUser");
+        conversation= (Conversation) getIntent().getSerializableExtra("Conversation");
+        conversatioId=conversation.getId();
+        userId = (int) getIntent().getExtras().get("UserId");
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.chat_fragment_container, new Chat1to1Fragment(conversatioId)).commit();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.chat_fragment_container, new Chat1to1Fragment(conversation,userId)).commit();
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(Integer.toString(conversatioId));
@@ -37,6 +42,6 @@ public class ChatActivity extends AppCompatActivity {
 
         AlertDialog alert11 = builder1.create();
 
-        alert11.show();
+       // alert11.show();
     }
 }

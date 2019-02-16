@@ -142,6 +142,7 @@ public class User
         JsonObject jsonObject;
         if(state) {
             jsonObject = new JsonParser().parse("{\"isActive\": \"true\"}").getAsJsonObject();
+
         }
         else
         {

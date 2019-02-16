@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,7 +19,10 @@ import android.view.MenuItem;
 
 import com.example.aca.findyourplace.ChatFragment;
 import com.example.aca.findyourplace.HomeFragment;
+import com.example.aca.findyourplace.Invoker;
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.StartChatFragment;
+import com.example.aca.findyourplace.StartLoginActivity;
 import com.example.aca.findyourplace.model.User;
 
 import org.json.JSONException;
@@ -37,12 +41,17 @@ public class StartPageActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mToggle;
     int userId;
     CircleImageView img;
+    Invoker invoker;
     //private Fragment homeFragment=new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_page);
+
+
+
+
 
        // img=(CircleImageView) findViewById(R.id.test_load_image_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.start_page_drawer_layout);
@@ -51,10 +60,15 @@ public class StartPageActivity extends AppCompatActivity {
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        userId = (int) getIntent().getExtras().get("User");
+
+        invoker=new Invoker();
+        invoker.addCommand(R.id.chat,new StartChatFragment(userId,getSupportFragmentManager()));
+        invoker.addCommand(R.id.sign_out, new StartLoginActivity(userId,StartPageActivity.this));
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new HomeFragment()).commit();
 
-        userId = (int) getIntent().getExtras().get("User");
+
         Log.d("Start page @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +
                 "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +
                 "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +
@@ -62,25 +76,6 @@ public class StartPageActivity extends AppCompatActivity {
 
 
 
-
-    /*
-            try {
-                User us = User.loadUser(userId);
-                //////////////////////////////////
-                try {
-                    byte [] encodeByte=Base64.decode(us.getImage(),Base64.DEFAULT);
-                    Bitmap image=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                    img.setImageBitmap(image);
-                } catch(Exception e) {
-                    e.getMessage();
-
-                }
-
-                //img.setImageBitmap(image);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-    */
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -91,17 +86,21 @@ public class StartPageActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id == R.id.chat) {
+                invoker.getCommand(id).execute();
+               // if (id == R.id.chat) {
                    /*
                     Log.d("chat", "onNavigationItemSelected: ");
                     Intent chat = new Intent(StartPageActivity.this, ChatActivity.class);
                     startActivity(chat);cm
                     */
                    //otkomentarisati obavezno
-                    getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new ChatFragment(userId)).commit();
+                    //FragmentManager m=getSupportFragmentManager();
+                   //  getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new ChatFragment(userId)).commit();
 
-                }
-                else if(id ==R.id.sign_out)
+               // }
+
+                /*
+                if(id ==R.id.sign_out)
                 {
                     try {
                         User.isActive(userId,false);
@@ -115,7 +114,7 @@ public class StartPageActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
-
+*/
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.start_page_drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
@@ -136,10 +135,12 @@ public class StartPageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chat_fragment_menu, menu);
 
-
-
-
-
-
+        return true;
+    }
+    */
 }
