@@ -15,7 +15,7 @@ public class Event {
     int id;
     String name;
     String tag;
-    ArrayList<Byte> image;
+    //ArrayList<Byte> image;
     String description;
     int like;
     Date date;
@@ -102,13 +102,13 @@ public class Event {
         this.tag = tag;
     }
 
-    public ArrayList<Byte> getImage() {
-        return image;
-    }
+   // public ArrayList<Byte> getImage() {
+    //    return image;
+   // }
 
-    public void setImage(ArrayList<Byte> image) {
-        this.image = image;
-    }
+    //public void setImage(ArrayList<Byte> image) {
+       // this.image = image;
+   // }
 
     public String getDescription() {
         return description;

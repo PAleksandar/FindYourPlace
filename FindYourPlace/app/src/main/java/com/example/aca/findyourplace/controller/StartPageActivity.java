@@ -115,6 +115,16 @@ public class StartPageActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
+                else if (id == R.id.event2)
+                {
+                    Intent intent = new Intent(StartPageActivity.this, EventMapsActivity.class);
+                    startActivity(intent);
+                }
+                else if (id == R.id.eventDodaj)
+                {
+                    Intent intent = new Intent(StartPageActivity.this, AddEventActivity.class);
+                    startActivity(intent);
+                }
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.start_page_drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
