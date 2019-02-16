@@ -28,6 +28,17 @@ public class User
     Date birthday;
     ByteArrayOutputStream profileImage;
     String image;
+    static String token="";
+
+    public static String getUserToken()
+    {
+        return User.token;
+    }
+
+    public static void setUserToken (String token)
+    {
+        User.token = token;
+    }
 
     public String getImage() {
         return image;
@@ -86,6 +97,9 @@ public class User
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+       //JsonObject jsonObject= new JsonParser().parse(us).getAsJsonObject();
+        //token=jsonObject.get("Headers").toString();//get("x-auth-token").toString();
+
         User user=new User();
         Gson gson = new Gson();
         return user= gson.fromJson(us,User.class);
