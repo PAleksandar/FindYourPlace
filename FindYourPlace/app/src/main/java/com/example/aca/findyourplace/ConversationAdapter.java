@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,18 +49,28 @@ public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapt
              User user=User.loadUser(conversation.getUser2());
              holder.username.setText(user.getFirstName()+"  "+user.getLastName());
 
-            //final InputStream imageStream=user.getProfileImage().getBinaryStream();
-           // Bitmap image = BitmapFactory.decodeStream(imageStream);
 
-             //holder.image_profile.setImageBitmap(image);
+            try {
+                User us = User.loadUser(user.getId());
+                //////////////////////////////////
+                try {
+                    byte [] encodeByte=Base64.decode(us.getImage(),Base64.DEFAULT);
+                    Bitmap image=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                    holder.image_profile.setImageBitmap(image);
+                } catch(Exception e) {
+                    e.getMessage();
+
+                }
+
+                //img.setImageBitmap(image);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
-        }// catch (SQLException e) {
-           // e.printStackTrace();
-        //}
-
-
-        //publisherInfo(holder.image_profile,holder.username);
+        }
     }
 
     @Override
@@ -85,6 +96,8 @@ public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapt
     private void publisherInfo(final ImageView image_profile, final TextView username)
     {
         username.setText("test username");
+
+
 
     }
 }
