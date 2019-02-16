@@ -42,6 +42,9 @@
         <activity android:name=".controller.ChatActivity" />
         <activity android:name=".ImageTestActivity" />
 
+        <activity android:name=".controller.AddCommentActivity"></activity>
+
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAUH6K1Jj_NKm7wBLfVEbtyZQiJqACBQEM" />
@@ -53,6 +56,7 @@
             android:name=".controller.EventMapsActivity"
             android:label="@string/title_activity_event_maps" />
         <activity android:name=".controller.AddEventActivity"></activity>
+
     </application>
 
 </manifest>

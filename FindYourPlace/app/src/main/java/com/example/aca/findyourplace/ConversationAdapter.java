@@ -1,6 +1,7 @@
 package com.example.aca.findyourplace;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.aca.findyourplace.controller.LoginActivity;
 import com.example.aca.findyourplace.model.Conversation;
 import com.example.aca.findyourplace.model.Event;
 import com.example.aca.findyourplace.model.User;
@@ -19,6 +21,7 @@ import org.json.JSONException;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapter.ViewHolder>{
@@ -26,10 +29,19 @@ public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapt
 
     public Context mContext;
     public List<Conversation> mConversations;
+    public int userId;
 
-    public ConversationAdapter(Context mContext, List<Conversation> mPost) {
+    public ConversationAdapter(Context mContext, List<Conversation> mPost,int userId) {
         this.mContext = mContext;
         this.mConversations = mPost;
+        this.userId=userId;
+    }
+
+    public void update(List<Conversation> newList)
+    {
+        mConversations=new ArrayList<>();
+        mConversations.addAll(newList);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -44,14 +56,20 @@ public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapt
         Conversation conversation=mConversations.get(position);
 
 
+            int id;
+            if(userId==conversation.getUser1())
+            {
+                id=conversation.getUser2();
+            }
+            else {
+                id=conversation.getUser1();
+            }
 
-        try {
-             User user=User.loadUser(conversation.getUser2());
-             holder.username.setText(user.getFirstName()+"  "+user.getLastName());
 
 
             try {
-                User us = User.loadUser(user.getId());
+                User us = User.loadUser(id);
+                holder.username.setText(us.getFirstName()+"  "+us.getLastName());
                 //////////////////////////////////
                 try {
                     byte [] encodeByte=Base64.decode(us.getImage(),Base64.DEFAULT);
@@ -68,9 +86,6 @@ public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapt
             }
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -89,6 +104,12 @@ public class ConversationAdapter extends  RecyclerView.Adapter<ConversationAdapt
 
             image_profile=itemView.findViewById(R.id.conversation_fragment_profile_image);
             username=itemView.findViewById(R.id.conversation_fragment_username);
+
+            image_profile.setOnClickListener( (v)->{
+
+                Intent intent = new Intent(mContext, LoginActivity.class);
+                mContext.startActivity(intent);
+            });
 
         }
     }

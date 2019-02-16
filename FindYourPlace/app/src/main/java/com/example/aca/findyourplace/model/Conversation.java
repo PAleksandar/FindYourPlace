@@ -8,13 +8,14 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.aca.findyourplace.RabbitMQ.mreza;
 
-public class Conversation {
+public class Conversation implements Serializable {
     int id;
     int user1;
     int user2;

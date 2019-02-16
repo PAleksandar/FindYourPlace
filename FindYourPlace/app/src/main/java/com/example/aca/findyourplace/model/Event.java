@@ -1,10 +1,14 @@
 package com.example.aca.findyourplace.model;
 
+import android.util.Log;
+
 import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -15,7 +19,7 @@ public class Event {
     int id;
     String name;
     String tag;
-    //ArrayList<Byte> image;
+
     String description;
     int like;
     Date date;
@@ -27,8 +31,7 @@ public class Event {
         //image =  new ArrayList<Byte>();
     }
 
-    public Event(int id, String name, String tag,/* ArrayList<Byte> image,*/ String description, int like
-    , Date date, int placeId, int ownerUserId)
+    public Event(int id, String name, String tag, String description, int like, Date date, int placeId, int ownerUserId)
     {
         //this.image = new ArrayList<Byte>();
         this.id=id;
@@ -56,6 +59,35 @@ public class Event {
         Event event=new Event();
         Gson gson = new Gson();
         return event= gson.fromJson(ev,Event.class);
+    }
+
+    public static ArrayList<Event> loadEvents()
+    {
+        String text;
+        GetDataTask gdt;
+        gdt=new GetDataTask();
+        try {
+            text=gdt.execute(mreza+ "event").get();
+
+           // Log.d("cccc", text);
+            Type listType = new TypeToken<ArrayList<Event>>(){}.getType();
+            ArrayList<Event> data = new ArrayList<Event>();
+            Gson gson = new Gson();
+            data= gson.fromJson(text,listType);
+            Integer size = data.size();
+           // Log.d("list",size.toString());
+
+            return data;
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+        return new ArrayList<Event>();
+
     }
 
     public void saveEvent()
@@ -102,13 +134,7 @@ public class Event {
         this.tag = tag;
     }
 
-   // public ArrayList<Byte> getImage() {
-    //    return image;
-   // }
 
-    //public void setImage(ArrayList<Byte> image) {
-       // this.image = image;
-   // }
 
     public String getDescription() {
         return description;
