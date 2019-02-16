@@ -21,7 +21,9 @@ import com.example.aca.findyourplace.ChatFragment;
 import com.example.aca.findyourplace.HomeFragment;
 import com.example.aca.findyourplace.Invoker;
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.StartAddEventActivityCommand;
 import com.example.aca.findyourplace.StartChatFragment;
+import com.example.aca.findyourplace.StartEventMapsActivityCommand;
 import com.example.aca.findyourplace.StartLoginActivity;
 import com.example.aca.findyourplace.model.User;
 
@@ -65,6 +67,8 @@ public class StartPageActivity extends AppCompatActivity {
         invoker=new Invoker();
         invoker.addCommand(R.id.chat,new StartChatFragment(userId,getSupportFragmentManager()));
         invoker.addCommand(R.id.sign_out, new StartLoginActivity(userId,StartPageActivity.this));
+        invoker.addCommand(R.id.event3, new StartEventMapsActivityCommand(StartPageActivity.this));
+        invoker.addCommand(R.id.eventDodaj3, new StartAddEventActivityCommand(StartPageActivity.this));
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new HomeFragment()).commit();
 
@@ -129,6 +133,7 @@ public class StartPageActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 */
+
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.start_page_drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
