@@ -20,7 +20,7 @@ router.get('/email/:email/:password', ( req,res) => {
   const user = User.findOne({
     where: {
       email: req.params.email,
-      //password: req.params.password
+      password: req.params.password
     }
   }).then((u) => {res.send(u).json;})
 });
