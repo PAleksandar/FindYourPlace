@@ -55,11 +55,18 @@ public class Place {
         return place= gson.fromJson(pl,Place.class);
     }
 
-    public void savePlace()
+    public String savePlace()
     {
         PostDataTask pdt = new PostDataTask();
         pdt.SetJsonObject(this);
-        pdt.execute(RabbitMQ.mreza+"place");
+        try {
+            return pdt.execute(RabbitMQ.mreza+"place").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public void putPlace()

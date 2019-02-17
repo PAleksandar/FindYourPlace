@@ -94,7 +94,7 @@ public class Event {
     {
         PostDataTask pdt = new PostDataTask();
         pdt.SetJsonObject(this);
-        pdt.execute(RabbitMQ.mreza+"event");
+        pdt.execute(RabbitMQ.mreza+"event/"+placeId);
     }
 
     public void putEvent()
