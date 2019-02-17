@@ -7,6 +7,15 @@ const sequelize = models.sequelize;
 const Event = sequelize.import('../models/event');
 const Place = sequelize.import('../models/place');
 
+router.get('/user/:id', auth, (req,res)=>{ 
+    const event = Event.findAll({
+        where: {
+            ownerUserId: req.params.id,
+            
+          }
+    }).then((p)=>{res.status(200).send(p).json});
+});
+
 router.get('/', auth, (req,res)=>{ 
     const event = Event.findAll().then((p)=>{res.status(200).send(p).json});
 });
@@ -54,5 +63,12 @@ router.get('/:id/user', auth, (req,res)=>{
         event.getUsers().then((users)=>{res.status(200).send(users).json});
 
     });
+});
+
+
+router.delete('/:id', auth, function (req, res) {
+    
+    const event = Event.findById(req.params.id).then((task)=>{return task.destroy()}).then(()=>{res.status(200).send();})
+        
 });
 module.exports=router;

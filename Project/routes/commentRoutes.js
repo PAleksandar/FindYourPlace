@@ -13,6 +13,16 @@ router.get('/:id', auth, ( req, res) => {
   const comment = Comment.findById(req.params.id).then((c)=>{res.send(c).json});
 });
 
+router.get('/user/:id', auth, ( req, res) => {
+  const comment = Comment.findAll({
+    where: {
+        placeId: req.params.id,
+        
+      }
+}).then((p)=>{res.status(200).send(p).json});
+});
+
+
 router.put('/:id', auth, ( req, res) => {
   Comment.update({
     'text': req.body.text, 
