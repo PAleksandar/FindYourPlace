@@ -73,16 +73,16 @@ class GetDataTask extends AsyncTask<String, Void, String> {
             urlConnection.setConnectTimeout(10000);
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("Content-Type","application/json");
-            if(User.getUserToken() == "") {
+            if(User.getUserToken() != null) {
                 //setuje samo kad se loguje nema token i treba da ga dobije
+                urlConnection.setRequestProperty("x-auth-token", User.getUserToken());
+            }
+            urlConnection.connect();
+            if(User.getUserToken() == null)
+            {
                 String token = urlConnection.getHeaderField("x-auth-token");
                 User.setUserToken(token);
-            }else{
-                urlConnection.setRequestProperty("x-auth-token",User.getUserToken());
             }
-            //urlConnection.getHeaderField("x-auth-token");
-            urlConnection.connect();
-
             //Read data response from server
             InputStream inputStream=urlConnection.getInputStream();
             bufferedReader=new BufferedReader(new InputStreamReader(inputStream));

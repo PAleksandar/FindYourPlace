@@ -28,7 +28,7 @@ public class User
     Date birthday;
     ByteArrayOutputStream profileImage;
     String image;
-    static String token="";
+    static String token=null;
 
     public static String getUserToken()
     {
