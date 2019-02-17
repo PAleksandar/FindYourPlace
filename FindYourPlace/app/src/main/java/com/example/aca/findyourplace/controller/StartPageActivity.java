@@ -70,7 +70,7 @@ public class StartPageActivity extends AppCompatActivity {
         invoker.addCommand(R.id.event3, new StartEventMapsActivityCommand(StartPageActivity.this));
         invoker.addCommand(R.id.eventDodaj3, new StartAddEventActivityCommand(StartPageActivity.this));
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new HomeFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new HomeFragment(userId)).commit();
 
 
         Log.d("Start page @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" +

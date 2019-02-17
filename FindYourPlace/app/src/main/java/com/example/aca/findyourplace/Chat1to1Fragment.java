@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 public class Chat1to1Fragment extends Fragment {
@@ -150,7 +151,13 @@ public class Chat1to1Fragment extends Fragment {
 
                Message2 msg=new Message2(inputText.getText().toString(),userId,receiverId,conversation.getId(),null);
 
-                msg.saveMessage();
+                try {
+                    msg.saveMessage();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 inputText.setText("");
 

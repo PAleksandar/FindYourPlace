@@ -1,5 +1,6 @@
 package com.example.aca.findyourplace;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,14 +26,22 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
+@SuppressLint("ValidFragment")
 public class HomeFragment extends Fragment implements SearchView.OnQueryTextListener{
 
 
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     private List<Event> eventList;
+    private int userId;
 
     Context mContext;
+
+    @SuppressLint("ValidFragment")
+    public HomeFragment(int userId)
+    {
+        this.userId=userId;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +67,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        eventAdapter=new EventAdapter(getContext(),eventList);
+        eventAdapter=new EventAdapter(getContext(),eventList,userId);
         recyclerView.setAdapter(eventAdapter);
 
         return view;
@@ -67,10 +76,11 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
     private void readEvents()
     {
         eventList.addAll(Event.loadEvents());
+
         // int id, String name, String tag,/* ArrayList<Byte> image,*/ String description, int like
         // , Date date, int placeId, int ownerUserId
-       // eventList.add(new Event(1,"A event", "Tag 1", "Opis 1", 7, new Date(),3,3));
-        //eventList.add(new Event(2,"B event", "Tag 2", "Opis 2", 3, new Date(),3,3));
+         //eventList.add(new Event(1,"A event", "Tag 1", "Opis 1", 7, new Date(),3,1));
+        // eventList.add(new Event(2,"B event", "Tag 2", "Opis 2", 3, new Date(),3,2));
         //eventList.add(new Event(3,"C event", "Tag 3", "", 5, new Date(),3,3));
     }
 
@@ -110,7 +120,7 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
 
     public void resetSearch()
     {
-        eventAdapter=new EventAdapter (mContext,eventList);
+        eventAdapter=new EventAdapter (mContext,eventList,userId);
         recyclerView.setAdapter(eventAdapter);
     }
 

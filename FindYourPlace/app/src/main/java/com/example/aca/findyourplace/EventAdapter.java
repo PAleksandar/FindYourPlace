@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aca.findyourplace.controller.AddCommentActivity;
+import com.example.aca.findyourplace.controller.ChatActivity;
 import com.example.aca.findyourplace.controller.LoginActivity;
 import com.example.aca.findyourplace.model.Comment;
+import com.example.aca.findyourplace.model.Conversation;
 import com.example.aca.findyourplace.model.Event;
 import com.example.aca.findyourplace.model.User;
 
@@ -27,6 +30,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,10 +39,12 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
 
     public Context mContext;
     public List<Event> mPost;
+    private int userId;
 
-    public EventAdapter(Context mContext, List<Event> mPost) {
+    public EventAdapter(Context mContext, List<Event> mPost, int userId) {
         this.mContext = mContext;
         this.mPost = mPost;
+        this.userId=userId;
     }
 
     public void update(List<Event> eventList)
@@ -68,7 +74,9 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             holder.description.setText(event.getDescription());
         }
 
-        holder.description.setText(event.getDescription());
+        holder.tag.setText(event.getTag());
+        holder.description.setText(event.getName());
+        holder.comments.setText(event.getDescription());
         holder.likes.setText(Integer.toString(event.getLike()));
         try {
             User user=User.loadUser(event.getOwnerUserId());
@@ -89,6 +97,53 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             e.printStackTrace();
         }
 
+        holder.like.setOnClickListener( (v)->{
+
+            int score=event.getLike();
+            score++;
+            holder.likes.setText(Integer.toString(score));
+            event.setLike(score);
+            event.putEvent();
+
+
+        } );
+
+        holder.image_profile.setOnClickListener( (v)->{
+
+            if(event==null)
+            {
+                Log.d("Event null", "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+            try {
+
+                Log.d("Get owner user "+event.getOwnerUserId(), "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Conversation cl=Conversation.loadConversation(userId,event.getOwnerUserId());
+                if(cl==null)
+                {
+                    Conversation newConversation=new Conversation(0,userId,event.getOwnerUserId());
+                    newConversation.saveConversation();
+
+                    newConversation=Conversation.loadConversation(userId,event.getOwnerUserId());
+                    cl=newConversation;
+                    Log.d("Dodata converzacija"+cl.getId(), "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+                }
+
+                Intent intent = new Intent(mContext, ChatActivity.class);
+                intent.putExtra("Conversation",cl);
+                intent.putExtra("UserId",userId);
+                // intent.putExtra("ConversationUser",conversationList.get(position).getUser2());
+                mContext.startActivity(intent);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            //Conversation conversation=new Conversation(event.getOwnerUserId());
+        });
 
         holder.comment.setOnClickListener( (v)->{
 
@@ -135,7 +190,7 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
 
 
         public ImageView image_profile, post_image, like, comment, save;
-        public TextView username, likes, publisher, description, comments;
+        public TextView username, likes, publisher, description, comments,tag;
         public CircleImageView img;
 
         public ViewHolder(View itemView) {
@@ -146,6 +201,7 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             comments=itemView.findViewById(R.id.comments);
             like=itemView.findViewById(R.id.like);
             comment=itemView.findViewById(R.id.comment);
+            tag=itemView.findViewById(R.id.tag);
 
             save=itemView.findViewById(R.id.save);
             username=itemView.findViewById(R.id.username);

@@ -113,13 +113,13 @@ public class PostDataTask extends AsyncTask<String, Void, String> {
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true); //enable output (body data)
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            if(User.getUserToken() != "")
+           /* if(User.getUserToken() != "")
             {//samo kad se registruje nema token i treba da ga dobije
                 String token = urlConnection.getHeaderField("x-auth-token");
                 User.setUserToken(token);
             }else{
                 urlConnection.setRequestProperty("x-auth-token",User.getUserToken());
-            }
+            } */
             urlConnection.connect();
             //write data into server
             OutputStream outputStream = urlConnection.getOutputStream();

@@ -19,6 +19,7 @@ import com.example.aca.findyourplace.model.User;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class ConversationActivity extends AppCompatActivity {
 
@@ -82,7 +83,13 @@ public class ConversationActivity extends AppCompatActivity {
                 RabbitCon.publishMessage(et.getText().toString());
 
                 Message2 msg=new Message2(et.getText().toString(),1,2,1,new Date(System.currentTimeMillis()));
-                msg.saveMessage();
+                try {
+                    msg.saveMessage();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 et.setText("");
             }
