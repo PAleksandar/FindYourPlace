@@ -27,7 +27,7 @@ router.delete('/:id', auth, function (req, res) {
     
 });
 
-router.post('/', auth, (req,res)=>{
+router.post('/', (req,res)=>{
     var time=Date.now();
     const message = Message.create(
         {   'text':req.body.text,

@@ -19,7 +19,9 @@ var commentRouter = require('./routes/commentRoutes');
 
 const sequelize = models.sequelize;
 //models.sequelize.sync({force: true});
-sequelize.sync();
+
+//sequelize.sync();
+
 
 const app =  express();
 

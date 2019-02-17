@@ -24,7 +24,7 @@ router.put('/:id', auth, ( req, res) => {
   .then((c) => { res.send(c).json; });
 });
 
-router.post('/', auth, ( req, res) => {
+router.post('/', ( req, res) => {
   const comment = Comment.create({
     'text': req.body.text, 
     'date': new Date(req.body.date),
