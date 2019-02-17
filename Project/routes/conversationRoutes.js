@@ -14,13 +14,24 @@ router.get('/:id', auth, function (req, res) {
      const conversation = Conversation.findById(req.params.id).then((m)=>{res.send(m).json;});
  });
 
-router.get('/user/:id', auth, function (req, res) {
+
+
+router.get('/user/:id', function (req, res) {
     const conversation = Conversation.findAll({
         where:{
-            user1: req.params.id
+            $or: [ { user1: req.params.id}, { user2: req.params.id} ]
         }
     }).then((m)=>{res.send(m).json;});
 });
+
+router.get('/user/:id1/:id2', function (req, res) {
+    const conversation = Conversation.findOne({
+        where:{
+            $or: [ { user1: req.params.id1, user2: req.params.id2}, { user1: req.params.id2, user2: req.params.id1} ]
+        }
+    }).then((m)=>{res.send(m).json;});
+});
+
 
 router.delete('/:id', auth, function (req, res) {
     
@@ -28,7 +39,7 @@ router.delete('/:id', auth, function (req, res) {
         
 });
 
-router.post('/', auth, (req,res)=>{
+router.post('/', (req,res)=>{
     var time=Date.now();
     const conversation = Conversation.create(
         {   'user1':req.body.user1,
@@ -37,5 +48,6 @@ router.post('/', auth, (req,res)=>{
     .then((m)=>{res.send(m).json});
 
 });
+
 
 module.exports = router;
