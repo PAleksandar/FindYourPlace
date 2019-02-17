@@ -8,20 +8,20 @@ const models = require('../config/database');
 const sequelize = models.sequelize;
 const Message = sequelize.import('../models/message');
 
-router.get('/', auth, function (req, res) {
+router.get('/', function (req, res) {
     const message = Message.findAll().then((m)=>{res.send(m).json;});
 });
 
-router.get('/:id', auth, function (req, res) {
+router.get('/:id', function (req, res) {
      const message = Message.findById(req.params.id).then((m)=>{res.send(m).json;});
  });
 
-router.get('/conversation/:id', auth, function (req, res) {
+router.get('/conversation/:id', function (req, res) {
     const message = Message.findAll({ where: { convers: req.params.id } }).then((m)=>{res.send(m).json;});
 
 });
 
-router.delete('/:id', auth, function (req, res) {
+router.delete('/:id', function (req, res) {
     const message = Message.findById(req.params.id).then((task)=>{return task.destroy()}).then(()=>{res.status(200).send();})
 
     

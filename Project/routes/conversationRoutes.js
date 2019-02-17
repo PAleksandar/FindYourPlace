@@ -6,11 +6,11 @@ const models = require('../config/database');
 const sequelize = models.sequelize;
 const Conversation = sequelize.import('../models/conversation');
 
-router.get('/', auth, function (req, res) {
+router.get('/', function (req, res) {
     const conversation = Conversation.findAll().then((m)=>{res.send(m).json;});
 });
 
-router.get('/:id', auth, function (req, res) {
+router.get('/:id', function (req, res) {
      const conversation = Conversation.findById(req.params.id).then((m)=>{res.send(m).json;});
  });
 
@@ -33,7 +33,7 @@ router.get('/user/:id1/:id2', function (req, res) {
 });
 
 
-router.delete('/:id', auth, function (req, res) {
+router.delete('/:id', function (req, res) {
     
     const conversation = Conversation.findById(req.params.id).then((task)=>{return task.destroy()}).then(()=>{res.status(200).send();})
         

@@ -113,16 +113,16 @@ public class PostDataTask extends AsyncTask<String, Void, String> {
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true); //enable output (body data)
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            if(User.getUserToken() != null) {
-                //setuje samo kad se loguje nema token i treba da ga dobije
-                urlConnection.setRequestProperty("x-auth-token", User.getUserToken());
-            }
+//            if(User.getUserToken() != null) {
+//                //setuje samo kad se loguje nema token i treba da ga dobije
+//                urlConnection.setRequestProperty("x-auth-token", User.getUserToken());
+//            }
             urlConnection.connect();
-            if(User.getUserToken() == null)
-            {
-                String token = urlConnection.getHeaderField("x-auth-token");
-                User.setUserToken(token);
-            }
+//            if(User.getUserToken() == null)
+//            {
+//                String token = urlConnection.getHeaderField("x-auth-token");
+//                User.setUserToken(token);
+//            }
             //write data into server
             OutputStream outputStream = urlConnection.getOutputStream();
             bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));

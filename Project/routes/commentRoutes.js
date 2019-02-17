@@ -5,15 +5,15 @@ const models = require('../config/database');
 const sequelize = models.sequelize;
 const Comment = sequelize.import('../models/comment');
 
-router.get('/', auth, ( req, res) => {
+router.get('/', ( req, res) => {
   const comment = Comment.findAll().then((c) => {res.send(c).json;});
 });
 
-router.get('/:id', auth, ( req, res) => {
+router.get('/:id', ( req, res) => {
   const comment = Comment.findById(req.params.id).then((c)=>{res.send(c).json});
 });
 
-router.put('/:id', auth, ( req, res) => {
+router.put('/:id', ( req, res) => {
   Comment.update({
     'text': req.body.text, 
     'date': new Date(req.body.date),
@@ -34,7 +34,7 @@ router.post('/', ( req, res) => {
   }).then((c) => { res.send(c).json; });
 });
 
-router.delete('/:id', auth, ( req, res) => {
+router.delete('/:id', ( req, res) => {
   const comment = Comment.findById(req.params.id).then((u)=>{res.send(u).json});
   Comment.destroy({ where: {id: req.params.id} });
 });

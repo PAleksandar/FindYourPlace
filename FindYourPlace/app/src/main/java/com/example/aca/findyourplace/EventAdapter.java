@@ -63,122 +63,121 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Event event=mPost.get(position);
+        if(true){
 
-        if(event.getDescription().equals(""))
-        {
-            holder.description.setVisibility(View.GONE);
-        }
-        else {
-            holder.description.setVisibility(View.VISIBLE);
-            holder.description.setText(event.getDescription());
-        }
+        }else {
+            Event event = mPost.get(position);
 
-        holder.tag.setText(event.getTag());
-        holder.description.setText(event.getName());
-        holder.comments.setText(event.getDescription());
-        holder.likes.setText(Integer.toString(event.getLike()));
-        try {
-            User user=User.loadUser(event.getOwnerUserId());
-            holder.username.setText(user.getFirstName()+" "+user.getLastName());
-
-            try {
-                byte [] encodeByte=Base64.decode(user.getImage(),Base64.DEFAULT);
-                Bitmap image=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                holder.image_profile.setImageBitmap(image);
-                holder.post_image.setImageBitmap(image);
-            } catch(Exception e) {
-                e.getMessage();
-
+            if (event.getDescription().equals("")) {
+                holder.description.setVisibility(View.GONE);
+            } else {
+                holder.description.setVisibility(View.VISIBLE);
+                holder.description.setText(event.getDescription());
             }
 
-            //holder.image_profile
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        holder.like.setOnClickListener( (v)->{
-
-            int score=event.getLike();
-            score++;
-            holder.likes.setText(Integer.toString(score));
-            event.setLike(score);
-            event.putEvent();
-
-
-        } );
-
-        holder.image_profile.setOnClickListener( (v)->{
-
-            if(event==null)
-            {
-                Log.d("Event null", "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            }
+            holder.tag.setText(event.getTag());
+            holder.description.setText(event.getName());
+            holder.comments.setText(event.getDescription());
+            holder.likes.setText(Integer.toString(event.getLike()));
             try {
+                User user = User.loadUser(event.getOwnerUserId());
+                holder.username.setText(user.getFirstName() + " " + user.getLastName());
 
-                Log.d("Get owner user "+event.getOwnerUserId(), "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Conversation cl=Conversation.loadConversation(userId,event.getOwnerUserId());
-                if(cl==null)
-                {
-                    Conversation newConversation=new Conversation(0,userId,event.getOwnerUserId());
-                    newConversation.saveConversation();
-
-                    newConversation=Conversation.loadConversation(userId,event.getOwnerUserId());
-                    cl=newConversation;
-                    Log.d("Dodata converzacija"+cl.getId(), "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                try {
+                    byte[] encodeByte = Base64.decode(user.getImage(), Base64.DEFAULT);
+                    Bitmap image = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                    holder.image_profile.setImageBitmap(image);
+                    holder.post_image.setImageBitmap(image);
+                } catch (Exception e) {
+                    e.getMessage();
 
                 }
 
-                Intent intent = new Intent(mContext, ChatActivity.class);
-                intent.putExtra("Conversation",cl);
-                intent.putExtra("UserId",userId);
-                // intent.putExtra("ConversationUser",conversationList.get(position).getUser2());
-                mContext.startActivity(intent);
-
+                //holder.image_profile
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
             }
-            //Conversation conversation=new Conversation(event.getOwnerUserId());
-        });
 
-        holder.comment.setOnClickListener( (v)->{
+            holder.like.setOnClickListener((v) -> {
 
-            // Intent intent = new Intent(mContext, AddCommentActivity.class);
-            //mContext.startActivity(intent);
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setTitle("Write comment");
-
-
-            final EditText input = new EditText(mContext);
-
-            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
-            builder.setView(input);
+                int score = event.getLike();
+                score++;
+                holder.likes.setText(Integer.toString(score));
+                event.setLike(score);
+                event.putEvent();
 
 
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String text=input.getText().toString();
-                    holder.comments.setText(text);
-
-                    Comment com=new Comment(text,new Date(System.currentTimeMillis()),0,event.getOwnerUserId(),event.getPlaceId());
-                    com.saveComment();
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
             });
 
-            builder.show();
-        });
+            holder.image_profile.setOnClickListener((v) -> {
 
+                if (event == null) {
+                    Log.d("Event null", "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                }
+                try {
+
+                    Log.d("Get owner user " + event.getOwnerUserId(), "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    Conversation cl = Conversation.loadConversation(userId, event.getOwnerUserId());
+                    if (cl == null) {
+                        Conversation newConversation = new Conversation(0, userId, event.getOwnerUserId());
+                        newConversation.saveConversation();
+
+                        newConversation = Conversation.loadConversation(userId, event.getOwnerUserId());
+                        cl = newConversation;
+                        Log.d("Dodata converzacija" + cl.getId(), "onBindViewHolder: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+                    }
+
+                    Intent intent = new Intent(mContext, ChatActivity.class);
+                    intent.putExtra("Conversation", cl);
+                    intent.putExtra("UserId", userId);
+                    // intent.putExtra("ConversationUser",conversationList.get(position).getUser2());
+                    mContext.startActivity(intent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                //Conversation conversation=new Conversation(event.getOwnerUserId());
+            });
+
+            holder.comment.setOnClickListener((v) -> {
+
+                // Intent intent = new Intent(mContext, AddCommentActivity.class);
+                //mContext.startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Write comment");
+
+
+                final EditText input = new EditText(mContext);
+
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
+                builder.setView(input);
+
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String text = input.getText().toString();
+                        holder.comments.setText(text);
+
+                        Comment com = new Comment(text, new Date(System.currentTimeMillis()), 0, event.getOwnerUserId(), event.getPlaceId());
+                        com.saveComment();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            });
+        }
     }
 
     @Override
@@ -218,4 +217,5 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
         username.setText("test username");
         //publiser.setText("test publisher");
     }
+
 }

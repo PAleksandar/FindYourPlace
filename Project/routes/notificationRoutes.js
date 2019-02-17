@@ -5,15 +5,15 @@ const models = require('../config/database');
 const sequelize = models.sequelize;
 const notification = sequelize.import('../models/notification');
 
-router.get('/', auth, ( req, res) => {
+router.get('/', ( req, res) => {
   const notif = notification.findAll().then((n) => {res.send(n).json;});
 });
 
-router.get('/:id', auth, ( req, res) => {
+router.get('/:id', ( req, res) => {
   const notif = notification.findById(req.params.id).then((n)=>{res.send(n).json});
 });
 
-router.put('/:id', auth, ( req, res) => {
+router.put('/:id', ( req, res) => {
   notification.update({
     'text': req.body.text,
     'date': new Date(req.body.date),
@@ -23,7 +23,7 @@ router.put('/:id', auth, ( req, res) => {
   .then((n) => { res.send(n).json; });
 });
 
-router.post('/', auth, ( req, res) => {
+router.post('/', ( req, res) => {
   const notif = notification.create({
     'text': req.body.text, 
     'date': new Date(req.body.date),
@@ -32,7 +32,7 @@ router.post('/', auth, ( req, res) => {
   }).then((n) => { res.send(n).json; });
 });
 
-router.delete('/:id', auth, ( req, res) => {
+router.delete('/:id', ( req, res) => {
   const notif = notification.findById(req.params.id).then((n)=>{res.send(n).json});
   notification.destroy({ where: {id: req.params.id} });
 });
