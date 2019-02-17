@@ -20,6 +20,7 @@ public class StartEventMapsActivityCommand implements ICommand {
     public void execute() {
 
         Intent intent = new Intent(context, EventMapsActivity.class);
+        // intent.putExtra("EventId",eventId);
         context.startActivity(intent);
 
     }

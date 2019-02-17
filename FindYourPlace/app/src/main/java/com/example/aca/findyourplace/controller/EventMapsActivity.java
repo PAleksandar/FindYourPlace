@@ -27,7 +27,7 @@ public class EventMapsActivity extends FragmentActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        eventId=1;
+        eventId = (int) getIntent().getExtras().get("EventId");
         Event event=null;
 
         try {

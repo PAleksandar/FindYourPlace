@@ -42,6 +42,7 @@ public class AddEventActivity extends AppCompatActivity {
     private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     String date;
+    int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class AddEventActivity extends AppCompatActivity {
         txtDescription =(EditText) findViewById(R.id.editTextDescription);
         txtTag =(EditText) findViewById(R.id.editTextTag);
         mDisplayDate = (TextView) findViewById(R.id.editDate);
+        userId = (int) getIntent().getExtras().get("UserId");
         // Initialize Places.
         Places.initialize(getApplicationContext(), "AIzaSyAUH6K1Jj_NKm7wBLfVEbtyZQiJqACBQEM");
 
@@ -125,7 +127,7 @@ public class AddEventActivity extends AppCompatActivity {
                     e.setName(txtName.getText().toString());
                     e.setDescription(txtDescription.getText().toString());
                     e.setTag(txtTag.getText().toString());
-                    e.setOwnerUserId(1);
+                    e.setOwnerUserId(userId);
                     e.setDate(new java.util.Date(date));
 
                     e.saveEvent();

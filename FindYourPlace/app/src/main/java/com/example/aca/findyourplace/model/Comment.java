@@ -1,10 +1,15 @@
 package com.example.aca.findyourplace.model;
 
+import android.util.Log;
+
 import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -58,6 +63,37 @@ public class Comment {
         Gson gson = new Gson();
         return comment= gson.fromJson(cm,Comment.class);
     }
+
+    public static ArrayList<Comment> loadComments(int placeId)
+    {
+        String text;
+        GetDataTask gdt;
+        gdt=new GetDataTask();
+        try {
+            text=gdt.execute(mreza+"comment/user/"+placeId).get();
+
+            Log.d("cccc", text);
+            Type listType = new TypeToken<ArrayList<Comment>>(){}.getType();
+            ArrayList<Comment> data = new ArrayList<Comment>();
+            Gson gson = new Gson();
+            data= gson.fromJson(text,listType);
+            Integer size = data.size();
+            Log.d("list",size.toString());
+
+            return data;
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+        return new ArrayList<Comment>();
+
+    }
+
+
 
     public void saveComment()
     {

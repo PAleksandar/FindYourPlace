@@ -9,18 +9,18 @@
         <item
             android:id="@+id/eventDodaj3"
             android:icon="@drawable/ic_lista"
-            android:title="Dodaj dogadjaj" />
+            android:title="Add Event" />
         <item
             android:id="@+id/event3"
             android:icon="@drawable/ic_lista"
             android:title="EVENTS" />
         <item
-            android:id="@+id/event5"
+            android:id="@+id/myEvents"
             android:icon="@drawable/ic_lista"
-            android:title="eventProba" />
+            android:title="MyEvents" />
     <item android:id="@+id/update"
         android:icon="@drawable/zapromenu"
-        android:title="UPDATE INFORMATION"/>
+        android:title="Update Information"/>
     <item android:id="@+id/chat"
         android:icon="@drawable/zachat"
         android:title="CHAT"/>

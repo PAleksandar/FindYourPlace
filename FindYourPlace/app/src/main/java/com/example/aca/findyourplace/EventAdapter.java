@@ -13,12 +13,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aca.findyourplace.controller.AddCommentActivity;
 import com.example.aca.findyourplace.controller.ChatActivity;
+import com.example.aca.findyourplace.controller.EventMapsActivity;
 import com.example.aca.findyourplace.controller.LoginActivity;
 import com.example.aca.findyourplace.model.Comment;
 import com.example.aca.findyourplace.model.Conversation;
@@ -81,6 +84,7 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
         try {
             User user=User.loadUser(event.getOwnerUserId());
             holder.username.setText(user.getFirstName()+" "+user.getLastName());
+            holder.date.setText(event.getDate().toString());
 
             try {
                 byte [] encodeByte=Base64.decode(user.getImage(),Base64.DEFAULT);
@@ -96,6 +100,37 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        holder.save.setOnClickListener((v)->{
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle("Subscribe to event");
+
+
+
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+        });
+
+        holder.post_image.setOnClickListener( (v)->{
+
+
+            Intent intent = new Intent(mContext, EventMapsActivity.class);
+            intent.putExtra("EventId",event.getId());
+            mContext.startActivity(intent);
+        });
 
         holder.like.setOnClickListener( (v)->{
 
@@ -145,6 +180,39 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
             //Conversation conversation=new Conversation(event.getOwnerUserId());
         });
 
+        holder.viewComment.setOnClickListener((v)->{
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle("All comments");
+
+
+
+            final ListView listView=new ListView(mContext);
+            final ArrayList<String> textOfComments=new ArrayList<>();
+
+            ArrayList<Comment> listComment=Comment.loadComments(event.getPlaceId());
+            for(Comment c:listComment) {
+                textOfComments.add(c.getText());
+
+            }
+
+
+
+            ArrayAdapter arrayAdapter=new ArrayAdapter(mContext,android.R.layout.simple_list_item_1,textOfComments);
+            listView.setAdapter(arrayAdapter);
+            builder.setView(listView);
+
+            builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+
+        });
+
         holder.comment.setOnClickListener( (v)->{
 
             // Intent intent = new Intent(mContext, AddCommentActivity.class);
@@ -157,6 +225,7 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
 
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE);
             builder.setView(input);
+
 
 
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -189,13 +258,16 @@ public class EventAdapter extends  RecyclerView.Adapter<EventAdapter.ViewHolder>
     public class ViewHolder extends RecyclerView.ViewHolder {
 
 
-        public ImageView image_profile, post_image, like, comment, save;
-        public TextView username, likes, publisher, description, comments,tag;
+        public ImageView image_profile, post_image, like, comment, save, viewComment;
+        public TextView username, likes, publisher, description, comments,tag, simple_list, date;
         public CircleImageView img;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            date=itemView.findViewById(R.id.datum);
+            viewComment=itemView.findViewById(R.id.commentForView);
+            //simple_list=itemView.findViewById(R.id.text1);
             image_profile=itemView.findViewById(R.id.image_profile);
             post_image=itemView.findViewById(R.id.post_image);
             comments=itemView.findViewById(R.id.comments);

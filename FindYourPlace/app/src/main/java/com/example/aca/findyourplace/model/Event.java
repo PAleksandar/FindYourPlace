@@ -90,6 +90,35 @@ public class Event {
 
     }
 
+    public static ArrayList<Event> loadEvents(int userId)
+    {
+        String text;
+        GetDataTask gdt;
+        gdt=new GetDataTask();
+        try {
+            text=gdt.execute(mreza+ "event/user/"+userId).get();
+
+            // Log.d("cccc", text);
+            Type listType = new TypeToken<ArrayList<Event>>(){}.getType();
+            ArrayList<Event> data = new ArrayList<Event>();
+            Gson gson = new Gson();
+            data= gson.fromJson(text,listType);
+            Integer size = data.size();
+            // Log.d("list",size.toString());
+
+            return data;
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+        return new ArrayList<Event>();
+
+    }
+
     public void saveEvent()
     {
         PostDataTask pdt = new PostDataTask();

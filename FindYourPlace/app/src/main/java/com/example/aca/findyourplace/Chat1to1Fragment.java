@@ -59,6 +59,8 @@ public class Chat1to1Fragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        RabbitCon.setupConnectionFactory();
+
         if(userId==conversation.getUser1())
         {
             receiverId=conversation.getUser2();

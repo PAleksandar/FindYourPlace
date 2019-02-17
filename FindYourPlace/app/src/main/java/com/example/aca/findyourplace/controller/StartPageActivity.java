@@ -25,6 +25,7 @@ import com.example.aca.findyourplace.StartAddEventActivityCommand;
 import com.example.aca.findyourplace.StartChatFragment;
 import com.example.aca.findyourplace.StartEventMapsActivityCommand;
 import com.example.aca.findyourplace.StartLoginActivity;
+import com.example.aca.findyourplace.StartMyEventsFragmentCommand;
 import com.example.aca.findyourplace.model.User;
 
 import org.json.JSONException;
@@ -68,7 +69,8 @@ public class StartPageActivity extends AppCompatActivity {
         invoker.addCommand(R.id.chat,new StartChatFragment(userId,getSupportFragmentManager()));
         invoker.addCommand(R.id.sign_out, new StartLoginActivity(userId,StartPageActivity.this));
         invoker.addCommand(R.id.event3, new StartEventMapsActivityCommand(StartPageActivity.this));
-        invoker.addCommand(R.id.eventDodaj3, new StartAddEventActivityCommand(StartPageActivity.this));
+        invoker.addCommand(R.id.eventDodaj3, new StartAddEventActivityCommand(StartPageActivity.this,userId));
+        invoker.addCommand(R.id.myEvents,new StartMyEventsFragmentCommand(userId,getSupportFragmentManager()));
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_fragment_container, new HomeFragment(userId)).commit();
 
