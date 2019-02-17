@@ -1,32 +1,56 @@
 package com.example.aca.findyourplace.controller;
 
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.model.Event;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+//import com.example.aca.findyourplace.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.gson.Gson;
 
+import java.sql.Date;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 //import com.google.android.libraries.places.api.Places;
 
 public class AddEventActivity extends AppCompatActivity {
-
+    private double latitude=0;
+    private double longitude=0;
+    private EditText txtName;
+    private EditText txtDescription;
+    private EditText txtTag;
+    private TextView mDisplayDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-
+        Button btnAdd = (Button) findViewById(R.id.buttonAdd);
+        txtName=(EditText) findViewById(R.id.editTextName);
+        txtDescription =(EditText) findViewById(R.id.editTextDescription);
+        txtTag =(EditText) findViewById(R.id.editTextTag);
+        mDisplayDate = (TextView) findViewById(R.id.editDate);
         // Initialize Places.
         Places.initialize(getApplicationContext(), "AIzaSyAUH6K1Jj_NKm7wBLfVEbtyZQiJqACBQEM");
 
@@ -60,6 +84,8 @@ public class AddEventActivity extends AppCompatActivity {
 
                 placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
                     Place place2 = response.getPlace();
+                    latitude=place2.getLatLng().latitude;
+                    longitude=place2.getLatLng().longitude;
                     Log.i("drugi", "Place found: " + place2.getLatLng().latitude);
                 }).addOnFailureListener((exception) -> {
                     if (exception instanceof ApiException) {
@@ -78,5 +104,69 @@ public class AddEventActivity extends AppCompatActivity {
                 //Log.i(TAG, "An error occurred: " + status);
             }
         });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(latitude!=0&&longitude!=0)
+                {
+                    com.example.aca.findyourplace.model.Place p = new com.example.aca.findyourplace.model.Place();
+                    p.setLatitude(latitude);
+                    p.setLongitude(longitude);
+
+
+                    String json = p.savePlace();
+                    com.example.aca.findyourplace.model.Place pReturned = new com.example.aca.findyourplace.model.Place();
+                    Gson gson= new Gson();
+                    pReturned = gson.fromJson(json,com.example.aca.findyourplace.model.Place.class);
+
+                    Event e = new Event();
+                    e.setPlaceId(pReturned.getId());
+                    e.setName(txtName.getText().toString());
+                    e.setDescription(txtDescription.getText().toString());
+                    e.setTag(txtTag.getText().toString());
+                    e.setOwnerUserId(1);
+                    e.setDate(new java.util.Date(date));
+
+                    e.saveEvent();
+
+
+                }
+                else
+                {
+                    ///Nije moguce dodati treba da se napise obavestenje
+                }
+
+            }
+        });
+
+        mDisplayDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        AddEventActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                Log.d("ttt", "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
+
+                date = month + "/" + day + "/" + year;
+                mDisplayDate.setText(date);
+            }
+        };
     }
 }
