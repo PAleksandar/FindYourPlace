@@ -22,32 +22,7 @@ router.get('/email/:email/:password', ( req,res) => {
       email: req.params.email,
       //password: req.params.password
     }
-  }).then(async (u) => {
-    if(u)
-    {
-      const valid = await bcrypt.compare(req.params.password, u.password);
-    if(valid)
-    {
-      res.header('x-auth-token',
-      jwt.sign({ 
-        email: user.email,
-        password: user.password,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        isActive: true,
-        profileImage: user.profileImage,
-        image: user.image,
-        birthday: user.birthday 
-      }, 'jwtPrivateKey')).send(u).json
-    }
-    else{
-      res.status(401).send('Bad password.');
-    }
-    }
-    else{
-      res.send('There is no user with the given email.');
-    }
-  })
+  }).then((u) => {res.send(u).json;})
 });
 
 router.put('/:id', ( req, res) => {
