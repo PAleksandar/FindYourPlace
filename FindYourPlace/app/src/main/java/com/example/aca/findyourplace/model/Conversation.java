@@ -29,6 +29,12 @@ public class Conversation implements Serializable {
         this.user2=user2;
     }
 
+    public Conversation(int user1,int user2)
+    {
+        this.user1=user1;
+        this.user2=user2;
+    }
+
     public static Conversation loadConversation(int conversationID) throws JSONException
     {
         String cv=null;
@@ -65,13 +71,29 @@ public class Conversation implements Serializable {
         return conversation= gson.fromJson(cv,listType);
     }
 
-
-
-    public void saveConversation()
+    public static Conversation loadConversation(int id1, int id2) throws JSONException
     {
+        String cv=null;
+        GetDataTask gdt;
+        gdt=new GetDataTask();
+        try {
+            cv=gdt.execute(mreza+"conversation/user/"+id1+"/"+id2).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        Conversation conversation=new Conversation();
+        Gson gson = new Gson();
+        return conversation= gson.fromJson(cv,Conversation.class);
+    }
+
+
+
+    public void saveConversation() throws ExecutionException, InterruptedException {
         PostDataTask pdt = new PostDataTask();
         pdt.SetJsonObject(this);
-        pdt.execute(RabbitMQ.mreza+"conversation");
+        pdt.execute(RabbitMQ.mreza+"conversation").get();
     }
 
     public void putConversation()

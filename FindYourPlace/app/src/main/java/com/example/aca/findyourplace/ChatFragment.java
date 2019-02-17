@@ -94,7 +94,7 @@ public class ChatFragment extends Fragment implements SearchView.OnQueryTextList
         conversationAdapter=new ConversationAdapter (getContext(),conversationList,userId);
         recyclerView.setAdapter(conversationAdapter);
 
-    /*
+
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
@@ -117,7 +117,7 @@ public class ChatFragment extends Fragment implements SearchView.OnQueryTextList
                         alert11.show();
 
                          */
-    /*
+
                         Intent intent = new Intent(getContext(), ChatActivity.class);
                         intent.putExtra("Conversation",conversationList.get(position));
                         intent.putExtra("UserId",userId);
@@ -129,7 +129,7 @@ public class ChatFragment extends Fragment implements SearchView.OnQueryTextList
                         // do whatever
                     }
                 })
-        ); */
+        );
 
         return view;
     }

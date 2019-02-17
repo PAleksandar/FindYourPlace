@@ -84,11 +84,10 @@ public class Message2 {
 
     }
 
-    public void saveMessage()
-    {
+    public void saveMessage() throws ExecutionException, InterruptedException {
         PostDataTask pdt = new PostDataTask();
         pdt.SetJsonObject(this);
-        pdt.execute(RabbitMQ.mreza+"message");
+        pdt.execute(RabbitMQ.mreza+"message").get();
     }
 
     public String getTekst() {
