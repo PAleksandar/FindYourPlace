@@ -85,7 +85,19 @@ router.post('/', ( req, res) => {
     'profileImage': req.body.profileImage,
     'image': req.body.image,
     'birthday': new Date(req.body.birthday)
-  }).then((u) => { res.send(u).json; });
+  }).then((u) => { 
+    res.header('x-auth-token',
+      jwt.sign({ 
+        email: user.email,
+        password: user.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        isActive: true,
+        profileImage: user.profileImage,
+        image: user.image,
+        birthday: user.birthday 
+      }, 'jwtPrivateKey')).send(u).json;
+    });
 });
 
 router.delete('/:id', auth, ( req, res) => {
