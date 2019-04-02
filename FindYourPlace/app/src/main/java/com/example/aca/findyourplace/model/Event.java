@@ -26,13 +26,14 @@ public class Event {
     Date date;
     int placeId;
     int ownerUserId;
+    String image;
 
     public Event()
     {
         //image =  new ArrayList<Byte>();
     }
 
-    public Event(int id, String name, String tag, String description, int like, Date date, int placeId, int ownerUserId)
+    public Event(int id, String name, String tag, String description, int like, Date date, int placeId, int ownerUserId, String image)
     {
         //this.image = new ArrayList<Byte>();
         this.id=id;
@@ -44,6 +45,15 @@ public class Event {
         this.date=date;
         this.placeId = placeId;
         this.ownerUserId = ownerUserId;
+        this.image=image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public static Event loadEvent(int eventID) throws JSONException {

@@ -1,8 +1,13 @@
 package com.example.aca.findyourplace.controller;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.aca.findyourplace.R;
 import com.example.aca.findyourplace.model.Event;
@@ -22,16 +27,35 @@ public class EventMapsActivity extends FragmentActivity implements OnMapReadyCal
     private GoogleMap mMap;
     private int eventId;
     private LatLng eventLatLng;
+
+    private ImageView eventImage;
+    private TextView eventName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        eventImage=(ImageView) findViewById(R.id.eventImage);
+        eventName=(TextView) findViewById(R.id.eventName);
+
         eventId = (int) getIntent().getExtras().get("EventId");
         Event event=null;
 
         try {
             event = Event.loadEvent(eventId);
+
+            try {
+                byte [] encodeByte=Base64.decode(event.getImage(),Base64.DEFAULT);
+                Bitmap image=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                eventImage.setImageBitmap(image);
+            } catch(Exception e) {
+                e.getMessage();
+
+            }
+
+            eventName.setText(event.getName());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

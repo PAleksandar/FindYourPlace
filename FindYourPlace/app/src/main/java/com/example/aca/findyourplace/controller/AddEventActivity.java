@@ -1,10 +1,17 @@
 package com.example.aca.findyourplace.controller;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +36,9 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -36,17 +46,21 @@ import java.util.List;
 //import com.google.android.libraries.places.api.Places;
 
 public class AddEventActivity extends AppCompatActivity {
+    private static int RESULT_LOAD_IMAGE = 1;
     private double latitude=0;
     private double longitude=0;
     private EditText txtName;
     private EditText txtDescription;
     private EditText txtTag;
     private TextView mDisplayDate;
+    private Button addImage;
+    Bitmap imageBtm;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private Thread publishThread;
     private EventRabbit eventRabbit = new EventRabbit();
     String date;
     int userId;
+    String stringBmp=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +70,9 @@ public class AddEventActivity extends AppCompatActivity {
         txtDescription =(EditText) findViewById(R.id.editTextDescription);
         txtTag =(EditText) findViewById(R.id.editTextTag);
         mDisplayDate = (TextView) findViewById(R.id.editDate);
+        addImage=(Button) findViewById(R.id.addImageInEvent);
         userId = (int) getIntent().getExtras().get("UserId");
+
         // Initialize Places.
         Places.initialize(getApplicationContext(), "AIzaSyAVeCeJDgT2muwO37mapN9cACZ2Cf9yBYU");
 
@@ -111,6 +127,21 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
+        addImage.setOnClickListener((view)->{
+
+            try{
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }catch(Exception exp){
+                Log.i("Error",exp.toString());
+            }
+
+
+        });
+
+
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,6 +164,9 @@ public class AddEventActivity extends AppCompatActivity {
                     e.setTag(txtTag.getText().toString());
                     e.setOwnerUserId(userId);
                     e.setDate(new java.util.Date(date));
+                    if(stringBmp!=null) {
+                        e.setImage(stringBmp);
+                    }
 
                     e.saveEvent();
                     eventRabbit.publishToAMQP(publishThread,"event",e);
@@ -182,7 +216,55 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     @Override
+
     protected void onDestroy() {
         super.onDestroy();
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            try {
+                final InputStream imageStream = getContentResolver().openInputStream(selectedImage);
+                imageBtm = BitmapFactory.decodeStream(imageStream);
+                /////////////////////////////////////////
+                ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+                imageBtm.compress(Bitmap.CompressFormat.PNG,0, baos);
+                byte [] b=baos.toByteArray();
+                stringBmp=Base64.encodeToString(b, Base64.DEFAULT);
+                /////////////////////////////////////////
+               /* slika.setImageBitmap(image);
+
+                imageBytes=IOUtils.toByteArray(imageStream);
+
+                 byteArrayOutputStream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 1, byteArrayOutputStream);
+
+                */
+                // imageBlob.setBytes(0,imageBytes);
+
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            //image_view.setImageBitmap(bmp);
+
+            //to know about the selected image width and height
+            //  Toast.makeText(MainActivity.this, image_view.getDrawable().getIntrinsicWidth()+" & "+image_view.getDrawable().getIntrinsicHeight(), Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }
