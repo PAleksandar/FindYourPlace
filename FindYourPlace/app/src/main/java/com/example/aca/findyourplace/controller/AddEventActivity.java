@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.aca.findyourplace.BuildConfig;
+import com.example.aca.findyourplace.EventRabbit;
 import com.example.aca.findyourplace.R;
 import com.example.aca.findyourplace.model.Event;
 import com.google.android.gms.common.api.ApiException;
@@ -55,6 +56,8 @@ public class AddEventActivity extends AppCompatActivity {
     private Button addImage;
     Bitmap imageBtm;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private Thread publishThread;
+    private EventRabbit eventRabbit = new EventRabbit();
     String date;
     int userId;
     String stringBmp=null;
@@ -166,6 +169,11 @@ public class AddEventActivity extends AppCompatActivity {
                     }
 
                     e.saveEvent();
+                    eventRabbit.publishToAMQP(publishThread,"event",e);
+
+                    String s=gson.toJson(e);
+                    eventRabbit.publishMessage(s);
+
 
 
                 }
@@ -208,6 +216,10 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     @Override
+
+    protected void onDestroy() {
+        super.onDestroy();
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
@@ -252,6 +264,7 @@ public class AddEventActivity extends AppCompatActivity {
             //to know about the selected image width and height
             //  Toast.makeText(MainActivity.this, image_view.getDrawable().getIntrinsicWidth()+" & "+image_view.getDrawable().getIntrinsicHeight(), Toast.LENGTH_SHORT).show();
         }
+
 
     }
 }

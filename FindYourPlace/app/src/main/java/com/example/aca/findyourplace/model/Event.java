@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
