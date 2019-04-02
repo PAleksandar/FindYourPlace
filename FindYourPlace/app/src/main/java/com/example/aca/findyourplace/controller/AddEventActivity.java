@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.aca.findyourplace.BuildConfig;
+import com.example.aca.findyourplace.EventRabbit;
 import com.example.aca.findyourplace.R;
 import com.example.aca.findyourplace.model.Event;
 import com.google.android.gms.common.api.ApiException;
@@ -42,6 +43,8 @@ public class AddEventActivity extends AppCompatActivity {
     private EditText txtTag;
     private TextView mDisplayDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private Thread publishThread;
+    private EventRabbit eventRabbit = new EventRabbit();
     String date;
     int userId;
     @Override
@@ -132,6 +135,11 @@ public class AddEventActivity extends AppCompatActivity {
                     e.setDate(new java.util.Date(date));
 
                     e.saveEvent();
+                    eventRabbit.publishToAMQP(publishThread,"event",e);
+
+                    String s=gson.toJson(e);
+                    eventRabbit.publishMessage(s);
+
 
 
                 }
@@ -171,5 +179,10 @@ public class AddEventActivity extends AppCompatActivity {
                 mDisplayDate.setText(date);
             }
         };
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

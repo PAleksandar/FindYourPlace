@@ -3,6 +3,8 @@ package com.example.aca.findyourplace.controller;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,9 +20,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.aca.findyourplace.ChatFragment;
+import com.example.aca.findyourplace.EventRabbit;
 import com.example.aca.findyourplace.HomeFragment;
 import com.example.aca.findyourplace.Invoker;
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.RabbitMQ;
 import com.example.aca.findyourplace.StartAddEventActivityCommand;
 import com.example.aca.findyourplace.StartChatFragment;
 import com.example.aca.findyourplace.StartEventMapsActivityCommand;
@@ -34,6 +38,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -42,6 +48,8 @@ public class StartPageActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
+    private RabbitMQ eventRabbit = new RabbitMQ();
+    private Thread subscribeThread;
     int userId;
     CircleImageView img;
     Invoker invoker;
@@ -142,6 +150,22 @@ public class StartPageActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        final Handler incomingMessageHandler2 = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                String message = msg.getData().getString("msg");
+                Date now;
+                now = new Date();
+                SimpleDateFormat ft = new SimpleDateFormat ("hh:mm:ss");
+                //tv.append(ft.format(now) + ' ' + message + "\n");
+                //tv.append(message + "\n");
+                Log.d("poruka",message);
+
+            }
+        };
+
+        eventRabbit.subscribe(incomingMessageHandler2,subscribeThread,"event");
     }
 
     ////////////////
@@ -165,4 +189,9 @@ public class StartPageActivity extends AppCompatActivity {
         return true;
     }
     */
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
