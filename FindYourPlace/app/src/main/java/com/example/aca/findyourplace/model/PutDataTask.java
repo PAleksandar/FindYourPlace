@@ -98,8 +98,8 @@ public class PutDataTask extends AsyncTask<String, Void, String> {
             urlConnection.setConnectTimeout(10000);
             urlConnection.setRequestMethod("PUT");
             urlConnection.setDoOutput(true); //enable output (body data)
-            urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("x-auth-token",User.getUserToken());
+//            urlConnection.setRequestProperty("Content-Type", "application/json");
+//            urlConnection.setRequestProperty("x-auth-token",User.getUserToken());
             urlConnection.connect();
 
             //write data into server

@@ -72,8 +72,8 @@ class DeleteDataTask extends AsyncTask<String, Void, String> {
             urlConnection.setReadTimeout(10000);//milisecond
             urlConnection.setConnectTimeout(10000);
             urlConnection.setRequestMethod("DELETE");
-            urlConnection.setRequestProperty("Content-Type","application/json");
-            urlConnection.setRequestProperty("x-auth-token",User.getUserToken());
+            //urlConnection.setRequestProperty("Content-Type","application/json");
+            //urlConnection.setRequestProperty("x-auth-token",User.getUserToken());
             urlConnection.connect();
 
             //Read data response from server
