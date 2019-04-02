@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.aca.findyourplace.BuildConfig;
 import com.example.aca.findyourplace.R;
 import com.example.aca.findyourplace.model.Event;
 import com.google.android.gms.common.api.ApiException;
@@ -54,7 +55,7 @@ public class AddEventActivity extends AppCompatActivity {
         mDisplayDate = (TextView) findViewById(R.id.editDate);
         userId = (int) getIntent().getExtras().get("UserId");
         // Initialize Places.
-        Places.initialize(getApplicationContext(), "AIzaSyAUH6K1Jj_NKm7wBLfVEbtyZQiJqACBQEM");
+        Places.initialize(getApplicationContext(), "AIzaSyAVeCeJDgT2muwO37mapN9cACZ2Cf9yBYU");
 
 // Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(this);

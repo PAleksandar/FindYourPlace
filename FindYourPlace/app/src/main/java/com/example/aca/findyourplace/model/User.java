@@ -1,6 +1,7 @@
 package com.example.aca.findyourplace.model;
 
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.example.aca.findyourplace.RabbitMQ;
 import com.google.gson.Gson;
@@ -99,7 +100,7 @@ public class User
         }
        //JsonObject jsonObject= new JsonParser().parse(us).getAsJsonObject();
         //token=jsonObject.get("Headers").toString();//get("x-auth-token").toString();
-
+        Log.d("llllll", us);
         User user=new User();
         Gson gson = new Gson();
         return user= gson.fromJson(us,User.class);
