@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.aca.findyourplace.BuildConfig;
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.RabbitMQ;
 import com.example.aca.findyourplace.model.Event;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
@@ -55,6 +56,8 @@ public class AddEventActivity extends AppCompatActivity {
     private Button addImage;
     Bitmap imageBtm;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private Thread publishThread;
+    private RabbitMQ eventRabbit = new RabbitMQ();
     String date;
     int userId;
     String stringBmp=null;
@@ -69,7 +72,7 @@ public class AddEventActivity extends AppCompatActivity {
         mDisplayDate = (TextView) findViewById(R.id.editDate);
         addImage=(Button) findViewById(R.id.addImageInEvent);
         userId = (int) getIntent().getExtras().get("UserId");
-
+        eventRabbit.setupConnectionFactory();
         // Initialize Places.
         Places.initialize(getApplicationContext(), "AIzaSyAVeCeJDgT2muwO37mapN9cACZ2Cf9yBYU");
 
@@ -166,6 +169,9 @@ public class AddEventActivity extends AppCompatActivity {
                     }
 
                     e.saveEvent();
+
+                    eventRabbit.publishToAMQP(publishThread,"event");
+                    eventRabbit.publishMessage(gson.toJson(e));
 
 
                 }

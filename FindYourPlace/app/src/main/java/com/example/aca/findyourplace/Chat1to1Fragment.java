@@ -164,8 +164,8 @@ public class Chat1to1Fragment extends Fragment {
                 inputText.setText("");
 
                 msg.setDate(new Date(System.currentTimeMillis()));
-                messageList.add(msg);
-                messageAdapter.update(messageList);
+               // messageList.add(msg);
+                //messageAdapter.update(messageList);
 
                 String publishId=String.valueOf(conversation.getId())+String.valueOf(userId);
                 RabbitCon.publishToAMQP(publishThread,String.valueOf(publishId));

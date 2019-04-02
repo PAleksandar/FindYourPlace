@@ -3,6 +3,8 @@ package com.example.aca.findyourplace.controller;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -21,12 +23,15 @@ import com.example.aca.findyourplace.ChatFragment;
 import com.example.aca.findyourplace.HomeFragment;
 import com.example.aca.findyourplace.Invoker;
 import com.example.aca.findyourplace.R;
+import com.example.aca.findyourplace.RabbitMQ;
 import com.example.aca.findyourplace.StartAddEventActivityCommand;
 import com.example.aca.findyourplace.StartChatFragment;
 import com.example.aca.findyourplace.StartEventMapsActivityCommand;
 import com.example.aca.findyourplace.StartLoginActivity;
 import com.example.aca.findyourplace.StartMyEventsFragmentCommand;
+import com.example.aca.findyourplace.model.Event;
 import com.example.aca.findyourplace.model.User;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 
@@ -34,6 +39,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,6 +52,7 @@ public class StartPageActivity extends AppCompatActivity {
     int userId;
     CircleImageView img;
     Invoker invoker;
+
     //private Fragment homeFragment=new HomeFragment();
 
     @Override
@@ -142,6 +150,7 @@ public class StartPageActivity extends AppCompatActivity {
                 return true;
             }
         });
+
     }
 
     ////////////////
